@@ -7,10 +7,15 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+
 import gsbMat.Modele.M_gsbMat;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class SuppressionVehiculeRS extends JPanel implements ActionListener{
 	//Panel
@@ -26,6 +31,7 @@ public class SuppressionVehiculeRS extends JPanel implements ActionListener{
     private JButton btnValider;
     //JComboBox
     private JComboBox listeMateriel;
+	private JDatePickerImpl datePicker;
 	
     public SuppressionVehiculeRS() {
 		//Panel
@@ -52,6 +58,17 @@ public class SuppressionVehiculeRS extends JPanel implements ActionListener{
         listeMateriel = new JComboBox(nomPilote);
         panelGlobal.add(listeMateriel);
         listeMateriel.addActionListener(this);
+        
+        //DatePickerDebut
+        SqlDateModel model = new SqlDateModel();
+        Properties p = new Properties();
+        p.put("text.day", "Day");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        JDatePanelImpl panel = new JDatePanelImpl(model,p);
+        this.datePicker = new JDatePickerImpl(panel, new DateLabelFormatter());
+        
+        panelGlobal.add(datePicker);
 	
 		
 		//button
