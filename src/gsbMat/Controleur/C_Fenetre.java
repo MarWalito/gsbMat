@@ -199,7 +199,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    
 	    this.ajouterVehicule = new JMenuItem("Ajouter véhicule");
 	    this.afficherVehicule = new JMenuItem("Afficher véhicule");
-	    this.rechercherVehicule = new JMenuItem("Afficher véhicule");
+	    this.rechercherVehicule = new JMenuItem("Rechercher véhicule");
 	    this.supprimerVehicule = new JMenuItem("Supprimer véhicule");
 	    
         this.btnDeconnexion = new JMenuItem("Deconnexion");
