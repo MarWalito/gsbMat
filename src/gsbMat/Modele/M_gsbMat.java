@@ -1,0 +1,333 @@
+package gsbMat.Modele;
+
+/**
+ * 
+ * Modï¿½le pour la BDD
+ */
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import gsbMat.Materiel;
+
+public class M_gsbMat {
+	
+	private static Connection connexion;
+	private static Statement st;
+	private static ResultSet rs;
+	private static int count; 
+	private static PreparedStatement pst;
+	private static Pattern p;
+    private static Matcher m;
+    private static String user;
+	
+	/**
+	 * Mï¿½thode static pour la connexion
+	 */
+	public static void connexion() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connexion = DriverManager.getConnection("jdbc:mysql://172.16.203.202/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "sio", "slam");
+			st = connexion.createStatement();
+		} catch (ClassNotFoundException erreur ) {
+			// TODO Auto-generated catch block
+			System.out.println("Driver --> Pas la " + erreur);
+		} catch (SQLException erreur) {
+			System.out.println("Connexion --> Echouï¿½e " + erreur);
+		}
+	}
+	/**
+	 * Mï¿½thode static pour la dï¿½connexion
+	 */
+	public static void deconnexion() {
+
+		try {
+			connexion.close();
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Dï¿½connexion --> Pas la " + erreur);
+		}
+	}
+
+	public static boolean connexion(String unLogin, String unMdp) {
+		M_gsbMat.connexion();
+		boolean rep; 
+		int nbLogin;
+		rep = false;
+		nbLogin = 0;
+		try {
+			//Requï¿½te prï¿½parï¿½
+			pst = connexion.prepareStatement( "SELECT COUNT(*) AS nbLogin, typeUtilisateur FROM Visiteur WHERE login = ? AND mdp = sha1(?) ;");
+			pst.setString(1, unLogin);
+			pst.setString(2, unMdp);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				//On rï¿½cupï¿½re la valeur du count
+				nbLogin = rs.getInt("nbLogin");
+				M_gsbMat.user = rs.getString("typeUtilisateur");
+			}
+			rs.close();
+			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
+			if (nbLogin == 1) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requï¿½te rï¿½cupï¿½ration " + erreur);
+		}
+		return rep;
+	}
+	
+	public static String getType() {
+		return M_gsbMat.user;
+	}
+	
+	public static boolean modifPassword(String unMdpActuel, String unNouveauMdp) {
+		M_gsbMat.connexion();
+		boolean rep; 
+		int nbLogin;
+		rep = false;
+		nbLogin = 0;
+		try {
+			//Requï¿½te prï¿½parï¿½
+			pst = connexion.prepareStatement( "UPDATE User SET password = sha1(?) WHERE password = sha1(?)");
+			pst.setString(1, unNouveauMdp);
+			pst.setString(2, unMdpActuel);
+			count = pst.executeUpdate();
+			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
+			if (count == 1) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requï¿½te rï¿½cupï¿½ration " + erreur);
+		}
+		return rep;
+	}
+	// ========== PARTIE MATERIEL ==========
+	public static boolean addMateriel(int unId, String unLibelle, double uneLargeur, double uneLongeur, String unType) {
+		M_gsbMat.connexion();
+		boolean rep; 
+		int nbLogin;
+		rep = false;
+		nbLogin = 0;
+		try {
+			//Requï¿½te prï¿½parï¿½
+			pst = connexion.prepareStatement( "INSERT INTO Materiel VALUES (?,?,?,?,?);");
+			pst.setInt(1, unId);
+			pst.setString(2, unLibelle);
+			pst.setDouble(3, uneLargeur);
+			pst.setDouble(4, uneLongeur);
+			pst.setString(5, unType);
+			count = pst.executeUpdate();
+			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
+			if (count == 1) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requï¿½te insertion Materiel " + erreur);
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
+	
+	public static boolean deleteMateriel (String unType) {
+		M_gsbMat.connexion();
+		boolean rep; 
+		int nbLogin;
+		rep = false;
+		nbLogin = 0;
+		try {
+			//Requï¿½te prï¿½parï¿½
+			pst = connexion.prepareStatement( "DELETE FROM Materiel WHERE libelle = ?");
+			pst.setString(1, unType);
+			count = pst.executeUpdate();
+			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
+			if (count == 1) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requï¿½te suppression materiel " + erreur);
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
+	
+	public static ArrayList<String> recupListeMateriel() {
+        M_gsbMat.connexion();
+        ArrayList<String> liste = new ArrayList<String>();
+        try {
+            rs = st.executeQuery("SELECT libelle FROM Materiel;") ;
+            String libelle;
+            while(rs.next()) {
+            	libelle = rs.getString("libelle");
+                liste.add(libelle);
+            }
+            rs.close();
+        } catch (SQLException erreur) {
+            System.out.println("Erreur --> recupï¿½ration du matï¿½riel");
+            erreur.printStackTrace();
+        }
+        return liste;
+    }
+	
+	public static int getNbMateriel() {
+		M_gsbMat.connexion();
+        int rep = 0;
+        try {
+            rs = st.executeQuery("SELECT COUNT(*) AS nb FROM Materiel;") ;
+            while(rs.next()) {
+                rep = rs.getInt("nb");
+            }
+            rs.close();
+        } catch (SQLException erreur) {
+            System.out.println("Erreur --> recupï¿½ration du nombre de matï¿½riel");
+            erreur.printStackTrace();
+        }
+        return rep;
+    }
+	
+	public static ArrayList<Materiel> recupCtnTblMateriel() {
+		M_gsbMat.connexion();
+		ArrayList<Materiel> lesMateriels;
+		lesMateriels = new ArrayList<Materiel>();
+		String req;
+		int id;
+		String libelle, type;
+		double largeur, longueur;
+		try {
+			req = "SELECT * FROM materiel;";
+			rs = st.executeQuery(req);
+			while (rs.next()) {
+				id = rs.getInt("id");
+				libelle = rs.getString("libelle");
+				largeur = rs.getDouble("largeur");
+				longueur = rs.getDouble("longueur");
+				type = rs.getString("type");
+				lesMateriels.add(new Materiel(id, libelle, largeur, longueur, type));
+			}
+			rs.close() ;
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requï¿½te Recup ctn table " + erreur);
+			erreur.printStackTrace();
+		}
+		return lesMateriels;
+	}
+	
+	public static boolean searchMateriel(String unLibelle) {
+		M_gsbMat.connexion();
+		boolean rep = false;
+		int count = 0;
+		try {
+			pst = connexion.prepareStatement( "SELECT COUNT(*) AS nb FROM materiel WHERE libelle = ?;");
+			pst.setString(1, unLibelle);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				count = rs.getInt("nb");
+			}
+			rs.close();
+			if(count != 0) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			System.out.println("Erreur lors de la recherche de la course");
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
+	public static String getInfoMateriel(String unLibelle) {
+		M_gsbMat.connexion();
+		String rep = "";
+		int id;
+		Materiel unMateriel = null;
+		String libelle, type;
+		double largeur, longueur;
+		try {
+			pst = connexion.prepareStatement( "SELECT * FROM materiel WHERE libelle = ?;");
+			pst.setString(1, unLibelle);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				id = rs.getInt("id");
+				libelle = rs.getString("libelle");
+				largeur = rs.getDouble("largeur");
+				longueur = rs.getDouble("longueur");
+				type = rs.getString("type");
+				unMateriel = new Materiel(id, libelle, largeur, longueur, type);
+			}
+			rs.close();
+			rep = unMateriel.toXML();
+		} catch (SQLException erreur) {
+			System.out.println("Erreur --> recupï¿½ration des infos de la course");
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
+	// ========== PARTIE MATERIEL ==========
+	
+	// ========== PARTIE VEHICULE ==========
+	public static boolean addVehicule(int unId, String uneImmat, String unModele, String uneMarque, int unNbPlaces) {
+		M_gsbMat.connexion();
+		boolean rep; 
+		int nbLogin;
+		rep = false;
+		nbLogin = 0;
+		try {
+			//Requï¿½te prï¿½parï¿½
+			pst = connexion.prepareStatement( "INSERT INTO Vehicule VALUES (?,?,?,?,?);");
+			pst.setInt(1, unId);
+			pst.setString(2, uneImmat);
+			pst.setString(3, unModele);
+			pst.setString(4, uneMarque);
+			pst.setInt(5, unNbPlaces);
+			count = pst.executeUpdate();
+			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
+			if (count == 1) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requï¿½te insertion véhicule " + erreur);
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
+	
+	public static ArrayList<String> recupListeVehicule() {
+        M_gsbMat.connexion();
+        ArrayList<String> liste = new ArrayList<String>();
+        try {
+            rs = st.executeQuery("SELECT immat FROM Vehicule;") ;
+            String immat;
+            while(rs.next()) {
+            	immat = rs.getString("immat");
+                liste.add(immat);
+            }
+            rs.close();
+        } catch (SQLException erreur) {
+            System.out.println("Erreur --> recupï¿½ration du matï¿½riel");
+            erreur.printStackTrace();
+        }
+        return liste;
+    }
+	
+	public static int getListeVehicule() {
+		M_gsbMat.connexion();
+        int rep = 0;
+        try {
+            rs = st.executeQuery("SELECT COUNT(*) AS nb FROM Materiel;") ;
+            while(rs.next()) {
+                rep = rs.getInt("nb");
+            }
+            rs.close();
+        } catch (SQLException erreur) {
+            System.out.println("Erreur --> recupï¿½ration du nombre de matï¿½riel");
+            erreur.printStackTrace();
+        }
+        return rep;
+    }
+	
+}
