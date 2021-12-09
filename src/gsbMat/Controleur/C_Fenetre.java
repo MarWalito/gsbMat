@@ -40,6 +40,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
     private JMenuItem ajouterVehicule;
     private JMenuItem supprimerVehicule;
     private JMenuItem afficherVehicule;
+    private JMenuItem rechercherVehicule;
 
     //Pour la partie Visiteur
     private JMenuItem listeReservation;
@@ -135,6 +136,11 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 getContentPane().add(new AfficherVehicule(M_gsbMat.recupCtnTblVehicule()).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
+            }else if (e.getSource().equals(rechercherVehicule)) {
+                getContentPane().removeAll();
+                getContentPane().add(new RechercherVehicule().getMonPanelGlobal());
+                getContentPane().revalidate();
+                getContentPane().repaint();
             }
     		/* else if (e.getSource().equals(listeReservation)) {
                 getContentPane().removeAll();
@@ -193,6 +199,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    
 	    this.ajouterVehicule = new JMenuItem("Ajouter véhicule");
 	    this.afficherVehicule = new JMenuItem("Afficher véhicule");
+	    this.rechercherVehicule = new JMenuItem("Afficher véhicule");
 	    this.supprimerVehicule = new JMenuItem("Supprimer véhicule");
 	    
         this.btnDeconnexion = new JMenuItem("Deconnexion");
@@ -206,6 +213,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    
 	    menuVeh.add(ajouterVehicule);
 	    menuVeh.add(afficherVehicule);
+	    menuVeh.add(rechercherVehicule);
 	    menuVeh.add(supprimerVehicule);
 	    
         menuRes.add(btnDeconnexion);
@@ -219,6 +227,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    
 	    this.ajouterVehicule.addActionListener(new ActionListe ());
 	    this.afficherVehicule.addActionListener(new ActionListe ());
+	    this.rechercherVehicule.addActionListener(new ActionListe ());
 	    this.supprimerVehicule.addActionListener(new ActionListe ());
 
 	    // Ajout du menu dans la barre de menu

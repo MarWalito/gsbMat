@@ -381,4 +381,52 @@ public class M_gsbMat {
 		return lesVehicules;
 	}
 	
+	public static boolean searchVehicule(String uneImmat) {
+		M_gsbMat.connexion();
+		boolean rep = false;
+		int count = 0;
+		try {
+			pst = connexion.prepareStatement( "SELECT COUNT(*) AS nb FROM Vehicule WHERE immat = ?;");
+			pst.setString(1, uneImmat);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				count = rs.getInt("nb");
+			}
+			rs.close();
+			if(count != 0) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			System.out.println("Erreur lors de la recherche de la course");
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
+	public static String getInfoVehicule(String uneImmat) {
+		M_gsbMat.connexion();
+		String rep = "";
+		int id, nbPlaces;
+		String immat, type, marque, modele;
+		Vehicule unVehicule = null;
+		try {
+			pst = connexion.prepareStatement( "SELECT * FROM Vehicule WHERE immat = ?;");
+			pst.setString(1, uneImmat);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				id = rs.getInt("id");
+				immat = rs.getString("immat");
+				modele = rs.getString("modele");
+				marque = rs.getString("marque");
+				nbPlaces = rs.getInt("nbPlaces");
+				unVehicule = new Vehicule(id, immat, modele, marque, nbPlaces);
+			}
+			rs.close();
+			rep = unVehicule.toString();
+		} catch (SQLException erreur) {
+			System.out.println("Erreur --> recup�ration des infos de la course");
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
+	
 }

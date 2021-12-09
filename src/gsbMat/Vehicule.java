@@ -55,4 +55,10 @@ public class Vehicule {
 		this.nbPlaces = nbPlaces;
 	}
 	
+	public String toString() {
+		String rep = null;
+		rep = "Id : " + this.id + " Immat : " + this.immat + " Modele : " + this.modele + " Marque : " + this.marque + " Nb Places : " + this.nbPlaces;
+		return rep;
+	}
+	
 }
