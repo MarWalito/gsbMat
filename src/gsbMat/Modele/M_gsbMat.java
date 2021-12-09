@@ -29,7 +29,7 @@ public class M_gsbMat {
 	public static void connexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connexion = DriverManager.getConnection("jdbc:mysql://172.16.203.202/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "sio", "slam");
+			connexion = DriverManager.getConnection("jdbc:mysql://localhost/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "");
 			st = connexion.createStatement();
 		} catch (ClassNotFoundException erreur ) {
 			// TODO Auto-generated catch block
@@ -428,5 +428,49 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
+	// ========== PARTIE VEHICULE ==========
+	
+	// ========== PARTIE EMPRUNT ==========
+		public static int rcpIdMat(String unNomMateriel) {
+			M_gsbMat.connexion();
+			int idMat = 0;
+			try {
+				pst = connexion.prepareStatement("SELECT id FROM Materiel WHERE libelle = ? ;") ;
+				pst.setString(1, unNomMateriel);
+				rs = pst.executeQuery();
+				while (rs.next()) {
+					idMat = rs.getInt("id");
+				}
+	            rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Erreur dans la recuperation de l'id materiel via le nom");
+				e.printStackTrace();
+			}
+			return idMat;
+		}
+		
+		public static boolean addEmpruntM(int unIdMateriel, String uneDateDebut, String uneDateFin, float uneDuree, String unIdVisiteur) {
+			M_gsbMat.connexion();
+	        boolean rep = false;
+	        int result = 0;
+	        try {
+	        	pst = connexion.prepareStatement("INSERT INTO empruntMat (idMateriel, dateDebut, dateFin, duree, idVisiteur) VALUES (?,?,?,?,?);");
+	        	pst.setInt(1, unIdMateriel);
+	        	pst.setString(2, uneDateDebut);
+	        	pst.setString(3, uneDateFin);
+	        	pst.setFloat(4, uneDuree);
+	        	pst.setString(5, unIdVisiteur);
+	            result = pst.executeUpdate();
+	            if (result == 1) {
+	                rep = true;
+	            }
+	        } catch (SQLException e) {
+	            System.out.println("Erreur d'insertion d'un materiel.");
+	            e.printStackTrace();
+	        }
+	        return rep;
+
+	    }
 	
 }

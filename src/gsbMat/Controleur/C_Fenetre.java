@@ -28,6 +28,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
     private JButton btnConnexion;
     //Barre de menu
     private JMenuBar menu;
+    private JMenuBar menuVis;
     //Item des diff?rents menus
 
     //Pour la partie Responsable
@@ -139,6 +140,11 @@ public class C_Fenetre extends JFrame implements ActionListener{
             }else if (e.getSource().equals(rechercherVehicule)) {
                 getContentPane().removeAll();
                 getContentPane().add(new RechercherVehicule().getMonPanelGlobal());
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }else if (e.getSource().equals(emprunterMateriel)) {
+                getContentPane().removeAll();
+                getContentPane().add(new AjouterEmpruntMatV().getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
             }
@@ -272,10 +278,10 @@ public class C_Fenetre extends JFrame implements ActionListener{
     }	
     public void affichageMenuVisiteur() {
         // Cr?ation de la barre de menu
-        JMenuBar menu = new JMenuBar();
+        JMenuBar menuVis = new JMenuBar();
 
         // Cr?ation des diff?rents menus
-        JMenu menuRes = new JMenu("Menu Visiteur");
+        JMenu menuVisi = new JMenu("Menu Visiteur");
         JMenu menuUser = new JMenu("Menu User");
 
 
@@ -287,18 +293,18 @@ public class C_Fenetre extends JFrame implements ActionListener{
         this.userGestion = new JMenuItem("Gestion User");
 
         // Ajout de l'él?ment au menu
-        menuRes.add(listeReservation);
-        menuRes.add(rechercherMateriel);
-        menuRes.add(emprunterMateriel);
+        menuVisi.add(listeReservation);
+        menuVisi.add(rechercherMateriel);
+        menuVisi.add(emprunterMateriel);
         menuUser.add(userGestion);
 
         //on ecoute les items du menu
-
+        this.emprunterMateriel.addActionListener(new ActionListe ());
 
         // Ajout du menu dans la barre de menu
-        menu.add(menuRes);
-        menu.add(menuUser);
+        menuVis.add(menuVisi);
+        menuVis.add(menuUser);
         // Permet de d?finir le menu utilis? dans la JFrame
-        this.setJMenuBar(menu);
+        this.setJMenuBar(menuVis);
     }
 }
