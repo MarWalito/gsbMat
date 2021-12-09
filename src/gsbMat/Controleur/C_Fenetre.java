@@ -38,6 +38,8 @@ public class C_Fenetre extends JFrame implements ActionListener{
     private JMenuItem btnDeconnexion;
     
     private JMenuItem ajouterVehicule;
+    private JMenuItem supprimerVehicule;
+    private JMenuItem afficherVehicule;
 
     //Pour la partie Visiteur
     private JMenuItem listeReservation;
@@ -123,7 +125,17 @@ public class C_Fenetre extends JFrame implements ActionListener{
                  getContentPane().add(new AjouterVehiculeRS().getMonPanelGlobal());
                  getContentPane().revalidate();
                  getContentPane().repaint();
-             }
+            }else if (e.getSource().equals(supprimerVehicule)) {
+                getContentPane().removeAll();
+                getContentPane().add(new SuppressionVehiculeRS().getMonPanelGlobal());
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }else if (e.getSource().equals(afficherVehicule)) {
+                getContentPane().removeAll();
+                getContentPane().add(new AfficherVehicule(M_gsbMat.recupCtnTblVehicule()).getMonPanelGlobal());
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }
     		/* else if (e.getSource().equals(listeReservation)) {
                 getContentPane().removeAll();
                 getContentPane().add(new AfficherListeMaterielV().getMonPanelGlobal());
@@ -180,6 +192,8 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    this.supprimerMateriel = new JMenuItem("Supprimer Materiel");
 	    
 	    this.ajouterVehicule = new JMenuItem("Ajouter véhicule");
+	    this.afficherVehicule = new JMenuItem("Afficher véhicule");
+	    this.supprimerVehicule = new JMenuItem("Supprimer véhicule");
 	    
         this.btnDeconnexion = new JMenuItem("Deconnexion");
         this.userGestion = new JMenuItem("Gestion User");
@@ -191,6 +205,8 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    menuRes.add(supprimerMateriel);
 	    
 	    menuVeh.add(ajouterVehicule);
+	    menuVeh.add(afficherVehicule);
+	    menuVeh.add(supprimerVehicule);
 	    
         menuRes.add(btnDeconnexion);
         menuUser.add(userGestion);
@@ -202,6 +218,8 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    this.rechercherMateriel.addActionListener(new ActionListe ());
 	    
 	    this.ajouterVehicule.addActionListener(new ActionListe ());
+	    this.afficherVehicule.addActionListener(new ActionListe ());
+	    this.supprimerVehicule.addActionListener(new ActionListe ());
 
 	    // Ajout du menu dans la barre de menu
 	    menu.add(menuRes);

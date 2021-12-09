@@ -42,8 +42,8 @@ public class SuppressionVehiculeRS extends JPanel implements ActionListener{
 		lblType = new JLabel("Quel est le type du matériel ? ");
 		panelGlobal.add(lblType, BorderLayout.CENTER);
 		//combo Box
-        ArrayList<String> listePilote = M_gsbMat.recupListeMateriel();
-        String nomPilote[] = new String[M_gsbMat.getNbMateriel()];
+        ArrayList<String> listePilote = M_gsbMat.recupListeVehicule();
+        String nomPilote[] = new String[M_gsbMat.getNbVehicule()];
         int i = 0; 
         for (String unPilote : listePilote) {
         	nomPilote[i] = unPilote;
@@ -65,8 +65,8 @@ public class SuppressionVehiculeRS extends JPanel implements ActionListener{
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
     		
-    		String type = listeMateriel.getSelectedItem().toString();
-    		if(M_gsbMat.deleteMateriel(type)) {
+    		String immat = listeMateriel.getSelectedItem().toString();
+    		if(M_gsbMat.deleteVehicule(immat)) {
     			panelGlobal.remove(affichage);
     			affichage.setText("Suppression good");
     			panelGlobal.add(affichage);

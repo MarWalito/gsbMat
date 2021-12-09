@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gsbMat.Materiel;
+import gsbMat.Vehicule;
 
 public class M_gsbMat {
 	
@@ -296,6 +297,29 @@ public class M_gsbMat {
 		return rep;
 	}
 	
+	public static boolean deleteVehicule (String uneImmat) {
+		M_gsbMat.connexion();
+		boolean rep; 
+		int nbLogin;
+		rep = false;
+		nbLogin = 0;
+		try {
+			//Requ�te pr�par�
+			pst = connexion.prepareStatement( "DELETE FROM Vehicule WHERE immat = ?");
+			pst.setString(1, uneImmat);
+			count = pst.executeUpdate();
+			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
+			if (count == 1) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requ�te suppression materiel " + erreur);
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
+	
 	public static ArrayList<String> recupListeVehicule() {
         M_gsbMat.connexion();
         ArrayList<String> liste = new ArrayList<String>();
@@ -314,11 +338,11 @@ public class M_gsbMat {
         return liste;
     }
 	
-	public static int getListeVehicule() {
+	public static int getNbVehicule() {
 		M_gsbMat.connexion();
         int rep = 0;
         try {
-            rs = st.executeQuery("SELECT COUNT(*) AS nb FROM Materiel;") ;
+            rs = st.executeQuery("SELECT COUNT(*) AS nb FROM Vehicule;") ;
             while(rs.next()) {
                 rep = rs.getInt("nb");
             }
@@ -329,5 +353,32 @@ public class M_gsbMat {
         }
         return rep;
     }
+	
+	public static ArrayList<Vehicule> recupCtnTblVehicule() {
+		M_gsbMat.connexion();
+		ArrayList<Vehicule> lesVehicules;
+		lesVehicules = new ArrayList<Vehicule>();
+		String req;
+		int id, nbPlaces;
+		String immat, type, marque, modele;
+		try {
+			req = "SELECT * FROM Vehicule;";
+			rs = st.executeQuery(req);
+			while (rs.next()) {
+				id = rs.getInt("id");
+				immat = rs.getString("immat");
+				modele = rs.getString("modele");
+				marque = rs.getString("marque");
+				nbPlaces = rs.getInt("nbPlaces");
+				lesVehicules.add(new Vehicule(id, immat, modele, marque, nbPlaces));
+			}
+			rs.close() ;
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requ�te Recup ctn table " + erreur);
+			erreur.printStackTrace();
+		}
+		return lesVehicules;
+	}
 	
 }
