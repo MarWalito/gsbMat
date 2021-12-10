@@ -51,6 +51,9 @@ public class C_Fenetre extends JFrame implements ActionListener{
     private Pattern p;
     private Matcher m;
     
+    
+    private String unlogin;
+    
     public C_Fenetre() {
     	this.setTitle("GSB Mat");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -144,7 +147,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 getContentPane().repaint();
             }else if (e.getSource().equals(emprunterMateriel)) {
                 getContentPane().removeAll();
-                getContentPane().add(new AjouterEmpruntMatV().getMonPanelGlobal());
+                getContentPane().add(new AjouterEmpruntMatV(unlogin).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
             }
@@ -176,6 +179,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
                     panelConnexion.remove(btnConnexion);
             	}
         		if (type.equals("V")) {
+        			this.unlogin = login;
         			result = new JTextArea ("Bienvenue Visiteur " + newLine + "Votre Login : " +  login); 
             		affichageMenuVisiteur();
                     panelConnexion.remove(btnConnexion);

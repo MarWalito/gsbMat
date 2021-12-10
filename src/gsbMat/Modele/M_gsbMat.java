@@ -450,7 +450,26 @@ public class M_gsbMat {
 			return idMat;
 		}
 		
-		public static boolean addEmpruntM(int unIdMateriel, Date uneDateDebut, Date uneDateFin, float uneDuree, String unIdVisiteur) {
+		public static int rcpIdVis(String unLogin) {
+			M_gsbMat.connexion();
+			int idMat = 0;
+			try {
+				pst = connexion.prepareStatement("SELECT id FROM Visiteur WHERE login = ? ;") ;
+				pst.setString(1, unLogin);
+				rs = pst.executeQuery();
+				while (rs.next()) {
+					idMat = rs.getInt("id");
+				}
+	            rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Erreur dans la recuperation de l'id materiel via le nom");
+				e.printStackTrace();
+			}
+			return idMat;
+		}
+		
+		public static boolean addEmpruntM(int unIdMateriel, Date uneDateDebut, Date uneDateFin, float uneDuree, int unIdVisiteur) {
 			M_gsbMat.connexion();
 	        boolean rep = false;
 	        int result = 0;
@@ -460,7 +479,7 @@ public class M_gsbMat {
 	        	pst.setDate(2, uneDateDebut);
 	        	pst.setDate(3, uneDateFin);
 	        	pst.setFloat(4, uneDuree);
-	        	pst.setString(5, unIdVisiteur);
+	        	pst.setInt(5, unIdVisiteur);
 	            result = pst.executeUpdate();
 	            if (result == 1) {
 	                rep = true;

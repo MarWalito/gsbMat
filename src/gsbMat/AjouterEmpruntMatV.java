@@ -38,6 +38,8 @@ public class AjouterEmpruntMatV extends JPanel implements ActionListener{
     private JTextField jtfDuree;
     private JTextField jtfIdVisiteur;
     
+    private JTextField jtfLoginVisiteur;
+    
     private JComboBox listeMateriel;
     
     private JDatePickerImpl datePicker;
@@ -45,13 +47,17 @@ public class AjouterEmpruntMatV extends JPanel implements ActionListener{
     
     //Button
     private JButton btnValider;
-	public AjouterEmpruntMatV() {
+	public AjouterEmpruntMatV(String unlogin) {
 		//Panel
 		panelGlobal = new JPanel();
 		panelContenu = new JPanel();
 		panelGlobal.setLayout(new BorderLayout());
 		panelGlobal.setLayout(new GridLayout(14, 1));
         
+		
+		this.jtfLoginVisiteur = new JTextField(); 
+		this.jtfLoginVisiteur.setText(unlogin);
+		
 		//Label
 		titre = new JLabel("Ajouter un materiel");
 		
@@ -104,11 +110,6 @@ public class AjouterEmpruntMatV extends JPanel implements ActionListener{
 		jtfDuree = new JTextField("");
 		panelGlobal.add(jtfDuree, BorderLayout.CENTER);
 		
-		lblType = new JLabel("Quelle est l'id Visiteur ? ");
-		panelGlobal.add(lblType, BorderLayout.CENTER);
-		jtfIdVisiteur = new JTextField("");
-		panelGlobal.add(jtfIdVisiteur, BorderLayout.CENTER);
-		
 		//button
         btnValider = new JButton ("Valider");
 		btnValider.addActionListener(this);
@@ -119,12 +120,14 @@ public class AjouterEmpruntMatV extends JPanel implements ActionListener{
     }
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
-			String nomMateriel = (String)listeMateriel.getSelectedItem();
-    		int idMat = M_gsbMat.rcpIdMat(nomMateriel);
+			
+			String loginVisiteur = jtfLoginVisiteur.getText();
+			int idVisiteur = M_gsbMat.rcpIdVis(loginVisiteur);
+			String libelle = (String)listeMateriel.getSelectedItem();
+    		int idMat = M_gsbMat.rcpIdMat(libelle);
     		java.sql.Date dateDebut = (java.sql.Date) AjouterEmpruntMatV.this.datePicker.getModel().getValue();
     		java.sql.Date dateFin = (java.sql.Date) AjouterEmpruntMatV.this.datePicker2.getModel().getValue();
     		float duree = Integer.parseInt(jtfDuree.getText());
-    		String idVisiteur = jtfIdVisiteur.getText();
     		if(M_gsbMat.addEmpruntM(idMat, dateDebut, dateFin,duree,idVisiteur)) {
     			panelGlobal.remove(affichage);
     			affichage.setText("Ajout good");
