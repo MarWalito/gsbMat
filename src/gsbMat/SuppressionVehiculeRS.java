@@ -42,7 +42,6 @@ public class SuppressionVehiculeRS extends JPanel implements ActionListener{
         
 		//Label
 		titre = new JLabel("Supprimer un matériel");
-		
 		panelGlobal.add(titre, BorderLayout.CENTER);
 		
 		lblType = new JLabel("Quel est le type du matériel ? ");
@@ -67,6 +66,7 @@ public class SuppressionVehiculeRS extends JPanel implements ActionListener{
         p.put("text.year", "Year");
         JDatePanelImpl panel = new JDatePanelImpl(model,p);
         this.datePicker = new JDatePickerImpl(panel, new DateLabelFormatter());
+        this.datePicker.setMaximumSize(new Dimension(150,30));
         
         panelGlobal.add(datePicker);
 	

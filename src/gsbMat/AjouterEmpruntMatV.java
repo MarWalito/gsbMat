@@ -7,10 +7,15 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+
 import gsbMat.Modele.M_gsbMat;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class AjouterEmpruntMatV extends JPanel implements ActionListener{
 	//Panel
@@ -34,6 +39,9 @@ public class AjouterEmpruntMatV extends JPanel implements ActionListener{
     private JTextField jtfIdVisiteur;
     
     private JComboBox listeMateriel;
+    
+    private JDatePickerImpl datePicker;
+    private JDatePickerImpl datePicker2;
     
     //Button
     private JButton btnValider;
@@ -65,13 +73,31 @@ public class AjouterEmpruntMatV extends JPanel implements ActionListener{
 		
 		lblLibelle = new JLabel("Quel est la date du debut ? ");
 		panelGlobal.add(lblLibelle, BorderLayout.CENTER);
-		jtfDateDebut = new JTextField("");
-		panelGlobal.add(jtfDateDebut, BorderLayout.CENTER);
+		//DatePickerDebut
+        SqlDateModel model = new SqlDateModel();
+        Properties p = new Properties();
+        p.put("text.day", "Day");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        JDatePanelImpl panel = new JDatePanelImpl(model,p);
+        this.datePicker = new JDatePickerImpl(panel, new DateLabelFormatter());
+        this.datePicker.setMaximumSize(new Dimension(150,30));
+        
+        panelGlobal.add(datePicker);
 		
 		lblLongueur = new JLabel("Quelle est la date de fin ? ");
 		panelGlobal.add(lblLongueur, BorderLayout.CENTER);
-		jtfDateFin = new JTextField("");
-		panelGlobal.add(jtfDateFin, BorderLayout.CENTER);
+		//DatePickerDebut
+        SqlDateModel model2 = new SqlDateModel();
+        Properties p2 = new Properties();
+        p2.put("text.day", "Day");
+        p2.put("text.month", "Month");
+        p2.put("text.year", "Year");
+        JDatePanelImpl panel2 = new JDatePanelImpl(model2,p2);
+        this.datePicker2 = new JDatePickerImpl(panel2, new DateLabelFormatter());
+        this.datePicker2.setMaximumSize(new Dimension(150,30));
+        
+        panelGlobal.add(datePicker2);
 		
 		lblLongueur = new JLabel("Quelle est la duree ? ");
 		panelGlobal.add(lblLongueur, BorderLayout.CENTER);
@@ -95,8 +121,8 @@ public class AjouterEmpruntMatV extends JPanel implements ActionListener{
 		if(evenement.getSource() == btnValider) {
 			String nomMateriel = (String)listeMateriel.getSelectedItem();
     		int idMat = M_gsbMat.rcpIdMat(nomMateriel);
-    		String dateDebut = jtfDateDebut.getText();
-    		String dateFin = jtfDateFin.getText();
+    		java.sql.Date dateDebut = (java.sql.Date) AjouterEmpruntMatV.this.datePicker.getModel().getValue();
+    		java.sql.Date dateFin = (java.sql.Date) AjouterEmpruntMatV.this.datePicker2.getModel().getValue();
     		float duree = Integer.parseInt(jtfDuree.getText());
     		String idVisiteur = jtfIdVisiteur.getText();
     		if(M_gsbMat.addEmpruntM(idMat, dateDebut, dateFin,duree,idVisiteur)) {

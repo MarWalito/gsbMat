@@ -29,7 +29,7 @@ public class M_gsbMat {
 	public static void connexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connexion = DriverManager.getConnection("jdbc:mysql://localhost/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "");
+			connexion = DriverManager.getConnection("jdbc:mysql://172.16.203.202/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "sio", "slam");
 			st = connexion.createStatement();
 		} catch (ClassNotFoundException erreur ) {
 			// TODO Auto-generated catch block
@@ -450,15 +450,15 @@ public class M_gsbMat {
 			return idMat;
 		}
 		
-		public static boolean addEmpruntM(int unIdMateriel, String uneDateDebut, String uneDateFin, float uneDuree, String unIdVisiteur) {
+		public static boolean addEmpruntM(int unIdMateriel, Date uneDateDebut, Date uneDateFin, float uneDuree, String unIdVisiteur) {
 			M_gsbMat.connexion();
 	        boolean rep = false;
 	        int result = 0;
 	        try {
 	        	pst = connexion.prepareStatement("INSERT INTO empruntMat (idMateriel, dateDebut, dateFin, duree, idVisiteur) VALUES (?,?,?,?,?);");
 	        	pst.setInt(1, unIdMateriel);
-	        	pst.setString(2, uneDateDebut);
-	        	pst.setString(3, uneDateFin);
+	        	pst.setDate(2, uneDateDebut);
+	        	pst.setDate(3, uneDateFin);
 	        	pst.setFloat(4, uneDuree);
 	        	pst.setString(5, unIdVisiteur);
 	            result = pst.executeUpdate();
