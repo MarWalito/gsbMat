@@ -29,7 +29,7 @@ public class M_gsbMat {
 	public static void connexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3307/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "");
+			connexion = DriverManager.getConnection("jdbc:mysql://localhost/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "");
 			st = connexion.createStatement();
 		} catch (ClassNotFoundException erreur ) {
 			// TODO Auto-generated catch block
@@ -338,6 +338,24 @@ public class M_gsbMat {
         return liste;
     }
 	
+	public static ArrayList<String> recupListeModeleVehicule() {
+        M_gsbMat.connexion();
+        ArrayList<String> liste = new ArrayList<String>();
+        try {
+            rs = st.executeQuery("SELECT modele FROM Vehicule;") ;
+            String modele;
+            while(rs.next()) {
+            	modele = rs.getString("modele");
+                liste.add(modele);
+            }
+            rs.close();
+        } catch (SQLException erreur) {
+            System.out.println("Erreur --> recup�ration du mat�riel");
+            erreur.printStackTrace();
+        }
+        return liste;
+    }
+	
 	public static int getNbVehicule() {
 		M_gsbMat.connexion();
         int rep = 0;
@@ -469,6 +487,25 @@ public class M_gsbMat {
 			return idMat;
 		}
 		
+		public static int rcpIdVeh(String unModele) {
+			M_gsbMat.connexion();
+			int idMat = 0;
+			try {
+				pst = connexion.prepareStatement("SELECT id FROM Vehicule WHERE modele = ? ;") ;
+				pst.setString(1, unModele);
+				rs = pst.executeQuery();
+				while (rs.next()) {
+					idMat = rs.getInt("id");
+				}
+	            rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Erreur dans la recuperation de l'id materiel via le nom");
+				e.printStackTrace();
+			}
+			return idMat;
+		}
+		
 		public static boolean addEmpruntM(int unIdMateriel, Date uneDateDebut, Date uneDateFin, float uneDuree, int unIdVisiteur) {
 			M_gsbMat.connexion();
 	        boolean rep = false;
@@ -476,6 +513,29 @@ public class M_gsbMat {
 	        try {
 	        	pst = connexion.prepareStatement("INSERT INTO empruntMat (idMateriel, dateDebut, dateFin, duree, idVisiteur) VALUES (?,?,?,?,?);");
 	        	pst.setInt(1, unIdMateriel);
+	        	pst.setDate(2, uneDateDebut);
+	        	pst.setDate(3, uneDateFin);
+	        	pst.setFloat(4, uneDuree);
+	        	pst.setInt(5, unIdVisiteur);
+	            result = pst.executeUpdate();
+	            if (result == 1) {
+	                rep = true;
+	            }
+	        } catch (SQLException e) {
+	            System.out.println("Erreur d'insertion d'un materiel.");
+	            e.printStackTrace();
+	        }
+	        return rep;
+
+	    }
+		
+		public static boolean addEmpruntV(int unIdVehicule, Date uneDateDebut, Date uneDateFin, float uneDuree, int unIdVisiteur) {
+			M_gsbMat.connexion();
+	        boolean rep = false;
+	        int result = 0;
+	        try {
+	        	pst = connexion.prepareStatement("INSERT INTO empruntVeh (idVehicule, dateDebut, dateFin, duree, idVisiteur) VALUES (?,?,?,?,?);");
+	        	pst.setInt(1, unIdVehicule);
 	        	pst.setDate(2, uneDateDebut);
 	        	pst.setDate(3, uneDateFin);
 	        	pst.setFloat(4, uneDuree);

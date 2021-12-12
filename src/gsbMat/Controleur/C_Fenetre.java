@@ -46,6 +46,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
     //Pour la partie Visiteur
     private JMenuItem listeReservation;
     private JMenuItem emprunterMateriel;
+    private JMenuItem emprunterVehicule;
     private JMenuItem userGestion;
 
     //Pour la partie Visiteur
@@ -164,6 +165,11 @@ public class C_Fenetre extends JFrame implements ActionListener{
             } else if (e.getSource().equals(affichageStats)) {
                 getContentPane().removeAll();
                 getContentPane().add(new AfficherStatsD().getMonPanelGlobal());
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }else if (e.getSource().equals(emprunterVehicule)) {
+                getContentPane().removeAll();
+                getContentPane().add(new AjouterEmpruntVehV(unlogin).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
             }
@@ -317,6 +323,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
         this.listeReservation = new JMenuItem("Voir les réservations");
         this.rechercherMateriel = new JMenuItem("Rechercher du Materiel");
         this.emprunterMateriel = new JMenuItem("Emprunter Materiel");
+        this.emprunterVehicule = new JMenuItem("Emprunter Véhicule");
         this.btnDeconnexion = new JMenuItem("Déconnexion");
         this.userGestion = new JMenuItem("Gestion User");
 
@@ -324,11 +331,13 @@ public class C_Fenetre extends JFrame implements ActionListener{
         menuVisi.add(listeReservation);
         menuVisi.add(rechercherMateriel);
         menuVisi.add(emprunterMateriel);
+        menuVisi.add(emprunterVehicule);
         menuVisi.add(btnDeconnexion);
         menuUser.add(userGestion);
 
         //on ecoute les items du menu
         this.emprunterMateriel.addActionListener(new ActionListe ());
+        this.emprunterVehicule.addActionListener(new ActionListe ());
         this.btnDeconnexion.addActionListener(new ActionListe ());
 
         // Ajout du menu dans la barre de menu
