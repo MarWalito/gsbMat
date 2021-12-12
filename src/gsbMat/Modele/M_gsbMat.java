@@ -496,23 +496,57 @@ public class M_gsbMat {
 
 		// ========== PARTIE DIRECTEUR STATISTIQUES  ==========
 
-		public static ArrayList<String> recupListeTypeMateriel() {
+		public static ArrayList<String> recupTypeUtilisateur(){
 			M_gsbMat.connexion();
 			ArrayList<String> liste = new ArrayList<String>();
-			try {
-				rs = st.executeQuery("SELECT type FROM Materiel;") ;
-				String type;
+			try{
+				rs = st.executeQuery("SELECT typeUtilisateur FROM visiteur") ;
+				String typeUtilisateur;
 				while(rs.next()) {
-					type = rs.getString("type");
-					liste.add(type);
+					typeUtilisateur = rs.getString("typeUtilisateur") ;
+					liste.add(typeUtilisateur);
 				}
 				rs.close();
 			} catch (SQLException erreur) {
-				System.out.println("Erreur -->  recuperation du type de materiel");
+				System.out.println("Erreur -->  recuperation du visiteur");
 				erreur.printStackTrace();
 			}
 			return liste;
 		}
 
-	
+	public static ArrayList<String> recupListeTypeMateriel() {
+		M_gsbMat.connexion();
+		ArrayList<String> liste = new ArrayList<String>();
+		try {
+			rs = st.executeQuery("SELECT type FROM Materiel;") ;
+			String type;
+			while(rs.next()) {
+				type = rs.getString("type");
+				liste.add(type);
+			}
+			rs.close();
+		} catch (SQLException erreur) {
+			System.out.println("Erreur -->  recuperation du type de materiel");
+			erreur.printStackTrace();
+		}
+		return liste;
+	}
+
+		public static int getNbUser() {
+			M_gsbMat.connexion();
+			int rep = 0;
+			try {
+				rs = st.executeQuery("SELECT COUNT(*) AS nb FROM Visiteur;");
+
+
+				while(rs.next()) {
+					rep = rs.getInt("nb");
+				}
+				rs.close();
+			} catch (SQLException erreur) {
+				System.out.println("Erreur --> recup�ration du nombre de visiteur");
+				erreur.printStackTrace();
+			}
+			return rep;
+		}
 }

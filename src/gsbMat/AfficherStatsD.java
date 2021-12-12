@@ -22,14 +22,14 @@ public class AfficherStatsD extends JPanel implements ActionListener{
 
     //Label
     private JLabel titre;
-    private JLabel nbPretsVisiteurs;
-    private JLabel nbResponsables;
-    private JLabel nbEmprunts;
-    private JLabel nbMateriels;
-    private JLabel nbVehicules;
+    private JLabel visiteurMedical;
+    private JLabel typeVisiteur;
+    private JLabel typeMateriel;
+
 
     //JComboBox
     private JComboBox listeTypeMateriel;
+    private JComboBox listeUtilisateur;
 
 
     //Jtf
@@ -59,10 +59,38 @@ public class AfficherStatsD extends JPanel implements ActionListener{
 
         panelGlobal.add(titre, BorderLayout.CENTER);
 
-        nbPretsVisiteurs = new JLabel("Nombre de prêts pour chaque visiteurs par type de materiel :");
-        panelGlobal.add(nbPretsVisiteurs, BorderLayout.CENTER);
+        typeVisiteur = new JLabel("Statut de l'utilisateur :");
+        panelGlobal.add(typeVisiteur, BorderLayout.CENTER);
 
-        //combo Box
+        //JComboBox
+
+        //Récupération de l'utilisateur
+        ArrayList<String> listeUser = M_gsbMat.recupTypeUtilisateur();
+        String utilisateur[] = new String[M_gsbMat.getNbUser()];
+        int j = 0;
+        for (String unUser : listeUser) {
+            utilisateur[j] = unUser;
+            j++;
+        }
+        listeUtilisateur = new JComboBox(utilisateur);
+        panelGlobal.add(listeUtilisateur);
+        listeUtilisateur.addActionListener(this);
+
+        visiteurMedical = new JLabel("Visiteur Medical :");
+        panelGlobal.add(visiteurMedical, BorderLayout.CENTER);
+
+        //Récupération de l'utilisateur en fonction de son statut
+        /*
+            ........
+         */
+
+
+
+
+        typeMateriel = new JLabel("Type De Materiel :");
+        panelGlobal.add(typeMateriel, BorderLayout.CENTER);
+
+        //Récupération du type de matériel
         ArrayList<String> listeTypeMat = M_gsbMat.recupListeTypeMateriel();
         String typeMateriel[] = new String[M_gsbMat.getNbMateriel()];
         int i = 0;
@@ -73,6 +101,17 @@ public class AfficherStatsD extends JPanel implements ActionListener{
         listeTypeMateriel = new JComboBox(typeMateriel);
         panelGlobal.add(listeTypeMateriel);
         listeTypeMateriel.addActionListener(this);
+
+
+
+
+
+
+
+
+
+
+
 
         //button
         btnValider = new JButton ("Valider");
