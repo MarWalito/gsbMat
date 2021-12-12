@@ -1,8 +1,6 @@
 package gsbMat;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
@@ -10,7 +8,6 @@ import javax.swing.*;
 import gsbMat.Modele.M_gsbMat;
 
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class AjouterVehiculeRS extends JPanel implements ActionListener{
 	//Panel

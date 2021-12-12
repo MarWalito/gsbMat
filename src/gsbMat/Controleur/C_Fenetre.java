@@ -47,7 +47,12 @@ public class C_Fenetre extends JFrame implements ActionListener{
     private JMenuItem listeReservation;
     private JMenuItem emprunterMateriel;
     private JMenuItem userGestion;
-    
+
+    //Pour la partie Visiteur
+    private JMenuItem affichageStats;
+
+
+
     private Pattern p;
     private Matcher m;
     
@@ -104,8 +109,14 @@ public class C_Fenetre extends JFrame implements ActionListener{
     
     class ActionListe implements ActionListener{
     	public void actionPerformed(ActionEvent e) {
+            if (e.getSource().equals(btnDeconnexion)) {
+                dispose();
+                getContentPane().add(new C_Fenetre());
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }
             //Panel Appartenant à la partie Responsable
-    		if (e.getSource().equals(ajouterMateriel)) {
+    		else if (e.getSource().equals(ajouterMateriel)) {
     		    getContentPane().removeAll();
     		    getContentPane().add(new AjouterMaterielRS().getMonPanelGlobal());
     		    getContentPane().revalidate();
@@ -150,7 +161,13 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 getContentPane().add(new AjouterEmpruntMatV(unlogin).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
+            } else if (e.getSource().equals(affichageStats)) {
+                getContentPane().removeAll();
+                getContentPane().add(new AfficherStatsD().getMonPanelGlobal());
+                getContentPane().revalidate();
+                getContentPane().repaint();
             }
+
     		/* else if (e.getSource().equals(listeReservation)) {
                 getContentPane().removeAll();
                 getContentPane().add(new AfficherListeMaterielV().getMonPanelGlobal());
@@ -234,13 +251,16 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    this.supprimerMateriel.addActionListener(new ActionListe ());
 	    this.afficherMateriel.addActionListener(new ActionListe ());
 	    this.rechercherMateriel.addActionListener(new ActionListe ());
-	    
+
+
 	    this.ajouterVehicule.addActionListener(new ActionListe ());
 	    this.afficherVehicule.addActionListener(new ActionListe ());
 	    this.rechercherVehicule.addActionListener(new ActionListe ());
 	    this.supprimerVehicule.addActionListener(new ActionListe ());
+        this.btnDeconnexion.addActionListener(new ActionListe ());
 
-	    // Ajout du menu dans la barre de menu
+
+        // Ajout du menu dans la barre de menu
 	    menu.add(menuRes);
 	    menu.add(menuVeh);
 	    menu.add(menuUser);
@@ -261,18 +281,22 @@ public class C_Fenetre extends JFrame implements ActionListener{
         this.afficherMateriel = new JMenuItem("***");
         this.rechercherMateriel = new JMenuItem("***");
         this.supprimerMateriel = new JMenuItem("***");
+        this.affichageStats = new JMenuItem("Affichage des statistiques");
         this.btnDeconnexion = new JMenuItem("Déconnexion");
-
-
         this.userGestion = new JMenuItem("Gestion User");
 
-        // Ajout de l'?l?ment au menu 
+        // Ajout de l'élément au menu
         menuRes.add(ajouterMateriel);
         menuRes.add(afficherMateriel);
         menuRes.add(rechercherMateriel);
         menuRes.add(supprimerMateriel);
+        menuRes.add(affichageStats);
         menuRes.add(btnDeconnexion);
         menuUser.add(userGestion);
+
+        //on ecoute les items du menu
+        this.affichageStats.addActionListener(new ActionListe ());
+        this.btnDeconnexion.addActionListener(new ActionListe ());
 
         // Ajout du menu dans la barre de menu
         menu.add(menuRes);
@@ -293,17 +317,19 @@ public class C_Fenetre extends JFrame implements ActionListener{
         this.listeReservation = new JMenuItem("Voir les réservations");
         this.rechercherMateriel = new JMenuItem("Rechercher du Materiel");
         this.emprunterMateriel = new JMenuItem("Emprunter Materiel");
-        
+        this.btnDeconnexion = new JMenuItem("Déconnexion");
         this.userGestion = new JMenuItem("Gestion User");
 
         // Ajout de l'él?ment au menu
         menuVisi.add(listeReservation);
         menuVisi.add(rechercherMateriel);
         menuVisi.add(emprunterMateriel);
+        menuVisi.add(btnDeconnexion);
         menuUser.add(userGestion);
 
         //on ecoute les items du menu
         this.emprunterMateriel.addActionListener(new ActionListe ());
+        this.btnDeconnexion.addActionListener(new ActionListe ());
 
         // Ajout du menu dans la barre de menu
         menuVis.add(menuVisi);

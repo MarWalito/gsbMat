@@ -44,7 +44,6 @@ public class AjouterMaterielRS extends JPanel implements ActionListener{
         
 		//Label
 		titre = new JLabel("Ajouter un materiel");
-		
 		panelGlobal.add(titre, BorderLayout.CENTER);
 		
 		lblId = new JLabel("Quel est l'id du materiel ? ");
@@ -89,7 +88,7 @@ public class AjouterMaterielRS extends JPanel implements ActionListener{
     		String type = jtfType.getText();
     		if(M_gsbMat.addMateriel(id,libelle, largeur,longueur,type)) {
     			panelGlobal.remove(affichage);
-    			affichage.setText("Ajout good");
+    			affichage.setText("Vous avez ajouté du matériel de type " + type);
     			panelGlobal.add(affichage);
         		panelGlobal.revalidate();
         		panelGlobal.repaint();
