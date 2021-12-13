@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gsbMat.Materiel;
+import gsbMat.Stats;
 import gsbMat.Vehicule;
 
 public class M_gsbMat {
@@ -29,7 +30,7 @@ public class M_gsbMat {
 	public static void connexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connexion = DriverManager.getConnection("jdbc:mysql://localhost/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "");
+			connexion = DriverManager.getConnection("jdbc:mysql://172.16.203.202/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "sio", "slam");
 			st = connexion.createStatement();
 		} catch (ClassNotFoundException erreur ) {
 			// TODO Auto-generated catch block
@@ -556,22 +557,28 @@ public class M_gsbMat {
 
 		// ========== PARTIE DIRECTEUR STATISTIQUES  ==========
 
-		public static ArrayList<String> recupListeTypeMateriel() {
+		public static ArrayList<Stats> recupCtnTblStats() {
 			M_gsbMat.connexion();
-			ArrayList<String> liste = new ArrayList<String>();
+			ArrayList<Stats> lesStats;
+			lesStats = new ArrayList<Stats>();
+			String req;
+			int totalEmprunt;
+			String type;
 			try {
-				rs = st.executeQuery("SELECT type FROM Materiel;") ;
-				String type;
-				while(rs.next()) {
+				req = "SELECT count(*) AS totalEmprunt, type FROM empruntMat EM, Materiel M WHERE EM.idMateriel = M.id ORDER BY DESC GROUP BY type;";
+				rs = st.executeQuery(req);
+				while (rs.next()) {
+					totalEmprunt = rs.getInt("totalEmprunt");
 					type = rs.getString("type");
-					liste.add(type);
+					lesStats.add(new Stats(totalEmprunt, type));
 				}
-				rs.close();
+				rs.close() ;
 			} catch (SQLException erreur) {
-				System.out.println("Erreur -->  recuperation du type de materiel");
+				// TODO Auto-generated catch block
+				System.out.println("Erreur --> Requ�te Recup ctn table " + erreur);
 				erreur.printStackTrace();
 			}
-			return liste;
+			return lesStats;
 		}
 
 	

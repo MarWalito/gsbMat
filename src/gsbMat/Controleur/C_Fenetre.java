@@ -164,7 +164,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 getContentPane().repaint();
             } else if (e.getSource().equals(affichageStats)) {
                 getContentPane().removeAll();
-                getContentPane().add(new AfficherStatsD().getMonPanelGlobal());
+                getContentPane().add(new AfficherStatsD(M_gsbMat.recupCtnTblStats()).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
             }else if (e.getSource().equals(emprunterVehicule)) {
