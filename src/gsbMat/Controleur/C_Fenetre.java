@@ -275,7 +275,8 @@ public class C_Fenetre extends JFrame implements ActionListener{
     }
     public void affichageMenuDirecteur() {
         // Cr?ation de la barre de menu
-        JMenuBar menu = new JMenuBar();
+        this.menu = new JMenuBar();
+        //this.menu.setBackground(new Color(47,53,66));
 
         // Cr?ation des diff?rents menus
         JMenu menuRes = new JMenu("Menu Directeur");

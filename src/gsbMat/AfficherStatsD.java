@@ -39,9 +39,10 @@ public class AfficherStatsD extends JPanel{
         for (Stats uneStats : uneListeStats) {
             data[i][0] = uneStats.getNbEmprunts();
             data[i][1] = uneStats.getType();
+            data[i][2] = uneStats.getLogin();
             i++;
         }
-        String [] title = {"Nombre Emprunt", "TypeMat"};
+        String [] title = {"Nombre Emprunt", "TypeMat", "Login visiteur"};
         //On instancie le tableau
         this.tableau = new JTable(data,title);
         //On définis la taille du tableau

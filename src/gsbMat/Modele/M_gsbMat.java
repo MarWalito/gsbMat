@@ -563,14 +563,15 @@ public class M_gsbMat {
 			lesStats = new ArrayList<Stats>();
 			String req;
 			int totalEmprunt;
-			String type;
+			String type, login;
 			try {
-				req = "SELECT count(*) AS totalEmprunt, type FROM empruntMat EM, Materiel M WHERE EM.idMateriel = M.id ORDER BY DESC GROUP BY type;";
+				req = "SELECT count(*) AS totalEmprunt, type, login FROM empruntMat EM, Materiel M, Visiteur V WHERE EM.idMateriel = M.id AND V.id = EM.idVisiteur GROUP BY type;";
 				rs = st.executeQuery(req);
 				while (rs.next()) {
 					totalEmprunt = rs.getInt("totalEmprunt");
 					type = rs.getString("type");
-					lesStats.add(new Stats(totalEmprunt, type));
+					login = rs.getString("login");
+					lesStats.add(new Stats(totalEmprunt,type,login));
 				}
 				rs.close() ;
 			} catch (SQLException erreur) {
