@@ -155,6 +155,8 @@ public class M_gsbMat {
 			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
 			if (count == 1 && count2 == 1) {
 				rep = true;
+			} else if (count == 1) {
+				rep = true;
 			}
 		} catch (SQLException erreur) {
 			// TODO Auto-generated catch block
