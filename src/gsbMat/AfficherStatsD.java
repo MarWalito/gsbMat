@@ -1,147 +1,66 @@
 package gsbMat;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+/**
+ * @author yohann
+ * Fenetre Afficher Circuit permettant l'affichage des circuits dans un tableau.
+ */
+import java.awt.*;
 import java.awt.event.ActionEvent;
+
 import javax.swing.*;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import gsbMat.Modele.M_gsbMat;
-
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class AfficherStatsD extends JPanel implements ActionListener{
-    //Panel
-    private JPanel panelGlobal;
-    private JPanel panelContenu;
+public class AfficherStatsD extends JPanel{
 
-    //Label
-    private JLabel titre;
-    private JLabel visiteurMedical;
-    private JLabel typeVisiteur;
-    private JLabel typeMateriel;
-
-
-    //JComboBox
-    private JComboBox listeTypeMateriel;
-    private JComboBox listeUtilisateur;
-
-
-    //Jtf
-    private JTextField jtfnbVisiteurs;
-    private JTextField jtfnbResponsables;
-    private JTextField jtfnbEmprunts;
-    private JTextField jtfnbMateriels;
-    private JTextField jtfnbVehicules;
-
-    //Date
-    Date today = new Date();
-    String sortie;
-    DateFormat formatfr= DateFormat.getDateInstance(DateFormat.MONTH_FIELD, new Locale("fr","FR"));
-
-    //Button
-    private JButton btnValider;
-
-    public AfficherStatsD() {
-        //Panel
-        panelGlobal = new JPanel();
-        panelContenu = new JPanel();
-        panelGlobal.setLayout(new BorderLayout());
-        panelGlobal.setLayout(new GridLayout(14, 1));
-
-        //Label
-        titre = new JLabel("Affichage des statistiques : " + formatfr.format(today) );
-
-        panelGlobal.add(titre, BorderLayout.CENTER);
-
-        typeVisiteur = new JLabel("Statut de l'utilisateur :");
-        panelGlobal.add(typeVisiteur, BorderLayout.CENTER);
-
-        //JComboBox
-
-        //Récupération de l'utilisateur
-        ArrayList<String> listeUser = M_gsbMat.recupTypeUtilisateur();
-        String utilisateur[] = new String[M_gsbMat.getNbUser()];
-        int j = 0;
-        for (String unUser : listeUser) {
-            utilisateur[j] = unUser;
-            j++;
-        }
-        listeUtilisateur = new JComboBox(utilisateur);
-        panelGlobal.add(listeUtilisateur);
-        listeUtilisateur.addActionListener(this);
-
-        visiteurMedical = new JLabel("Visiteur Medical :");
-        panelGlobal.add(visiteurMedical, BorderLayout.CENTER);
-
-        //Récupération de l'utilisateur en fonction de son statut
-        /*
-            ........
-         */
-
-
-
-
-        typeMateriel = new JLabel("Type De Materiel :");
-        panelGlobal.add(typeMateriel, BorderLayout.CENTER);
-
-        //Récupération du type de matériel
-        ArrayList<String> listeTypeMat = M_gsbMat.recupListeTypeMateriel();
-        String typeMateriel[] = new String[M_gsbMat.getNbMateriel()];
+    //Attributs privés
+    private JPanel panelTitre;
+    private JPanel monPanel;
+    private JPanel monPanelGlobal;
+    private JLabel lblContenuContacts;
+    private JTable tableau;
+    private JScrollPane scrollPane;
+    //On passe en paramètre une collection afin qu'il puisse afficher les circuits
+    public AfficherStatsD(ArrayList<Stats> uneListeStats) {
+        //Declaration des panels, des bordures et des couleurs
+        this.panelTitre = new JPanel();
+        this.monPanel = new JPanel();
+        this.monPanelGlobal = new JPanel();
+        this.panelTitre.setLayout(new BorderLayout());
+        this.monPanel.setLayout(new BorderLayout());
+        this.monPanelGlobal.setLayout(new BorderLayout());
+        this.panelTitre.setBackground(Color.pink);
+        this.monPanel.setBackground(Color.pink);
+        this.monPanelGlobal.setBackground(Color.pink);
+        //Définition de la taille
+        this.setSize(800, 400);
+        //Instanciation du tableau qui va contenir les informations
+        Object data[][]= new Object[20][20];
         int i = 0;
-        for (String unTypeMateriel : listeTypeMat) {
-            typeMateriel[i] = unTypeMateriel;
+        //Boucle foreach permettant le parcours de la collection pour l'affichage.
+        for (Stats uneStats : uneListeStats) {
+            data[i][0] = uneStats.getNbEmprunt();
+            data[i][1] = uneStats.getType();
             i++;
         }
-        listeTypeMateriel = new JComboBox(typeMateriel);
-        panelGlobal.add(listeTypeMateriel);
-        listeTypeMateriel.addActionListener(this);
+        String [] title = {"Nombre Emprunt", "TypeMat"};
+        //On instancie le tableau
+        this.tableau = new JTable(data,title);
+        //On définis la taille du tableau
+        this.tableau.setPreferredScrollableViewportSize(new Dimension(450, 400));
 
+        // Espacement entre les cases
+        this.tableau.setRowHeight(30);
 
-
-
-
-
-
-
-
-
-
-
-        //button
-        btnValider = new JButton ("Valider");
-        btnValider.addActionListener(this);
-        panelGlobal.add(btnValider);
+        // Obligé d'add un JScrollPane
+        this.scrollPane = new JScrollPane(this.tableau);
+        this.monPanel.add(this.scrollPane);
+        //On ajoute le tout au panelglobal qui va permettre les switch de panels.
+        this.monPanelGlobal.add(panelTitre, BorderLayout.NORTH);
+        this.monPanelGlobal.add(monPanel, BorderLayout.CENTER);
+        this.setVisible(true);
 
     }
-    public void actionPerformed ( ActionEvent evenement) {
-        if(evenement.getSource() == btnValider) {
-            String libelle = titre.getText();
-            String newLine = System.getProperty("line.separator");
-            JTextArea result = new JTextArea ("Erreur --> Ajout");
-            if(M_gsbMat.searchMateriel(libelle)) {
-                result = new JTextArea (M_gsbMat.getInfoMateriel(libelle));
-                panelGlobal.add(result);
-                panelGlobal.revalidate();
-                panelGlobal.repaint();
-            }
-            else {
-                result = new JTextArea ("Ecurie pas la");
-                panelGlobal.add(result);
-                panelGlobal.revalidate();
-                panelGlobal.repaint();
-            }
-        }
-    }
-
+    //Permet de retourner le panelGlobal
     public JPanel getMonPanelGlobal() {
-        return panelGlobal;
+        return monPanelGlobal;
     }
-
-
 }

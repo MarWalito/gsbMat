@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gsbMat.Materiel;
+import gsbMat.Stats;
 import gsbMat.Vehicule;
 
 public class M_gsbMat {
@@ -496,57 +497,30 @@ public class M_gsbMat {
 
 		// ========== PARTIE DIRECTEUR STATISTIQUES  ==========
 
-		public static ArrayList<String> recupTypeUtilisateur(){
+		public static ArrayList<Stats> recupCtnTblStats() {
 			M_gsbMat.connexion();
-			ArrayList<String> liste = new ArrayList<String>();
-			try{
-				rs = st.executeQuery("SELECT typeUtilisateur FROM visiteur") ;
-				String typeUtilisateur;
-				while(rs.next()) {
-					typeUtilisateur = rs.getString("typeUtilisateur") ;
-					liste.add(typeUtilisateur);
-				}
-				rs.close();
-			} catch (SQLException erreur) {
-				System.out.println("Erreur -->  recuperation du visiteur");
-				erreur.printStackTrace();
-			}
-			return liste;
-		}
-
-	public static ArrayList<String> recupListeTypeMateriel() {
-		M_gsbMat.connexion();
-		ArrayList<String> liste = new ArrayList<String>();
-		try {
-			rs = st.executeQuery("SELECT type FROM Materiel;") ;
+			ArrayList<Stats> lesStats;
+			lesStats = new ArrayList<Stats>();
+			String req;
+			int nbEmprunt;
 			String type;
-			while(rs.next()) {
-				type = rs.getString("type");
-				liste.add(type);
-			}
-			rs.close();
-		} catch (SQLException erreur) {
-			System.out.println("Erreur -->  recuperation du type de materiel");
-			erreur.printStackTrace();
-		}
-		return liste;
-	}
-
-		public static int getNbUser() {
-			M_gsbMat.connexion();
-			int rep = 0;
 			try {
-				rs = st.executeQuery("SELECT COUNT(*) AS nb FROM Visiteur;");
-
-
-				while(rs.next()) {
-					rep = rs.getInt("nb");
+				req = "SELECT count(*) AS totalEmprunt, type FROM empruntMat EM, Materiel M WHERE EM.idMateriel = M.id GROUP BY type;";
+				rs = st.executeQuery(req);
+				while (rs.next()) {
+					nbEmprunt = rs.getInt("nbEmprunt");
+					type = rs.getString("type");
+					lesStats.add(new Stats(type, nbEmprunt));
 				}
-				rs.close();
+				rs.close() ;
 			} catch (SQLException erreur) {
-				System.out.println("Erreur --> recup�ration du nombre de visiteur");
+				// TODO Auto-generated catch block
+				System.out.println("Erreur --> Requ�te Recup ctn table " + erreur);
 				erreur.printStackTrace();
 			}
-			return rep;
+			return lesStats;
 		}
+
+
+
 }
