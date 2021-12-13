@@ -141,13 +141,18 @@ public class M_gsbMat {
 		int nbLogin;
 		rep = false;
 		nbLogin = 0;
+		int id = rcpIdMat(unType);
 		try {
 			//Requ�te pr�par�
 			pst = connexion.prepareStatement( "DELETE FROM Materiel WHERE libelle = ?");
 			pst.setString(1, unType);
-			count = pst.executeUpdate();
+			count += pst.executeUpdate();
+			
+			pst = connexion.prepareStatement( "DELETE FROM empruntMat WHERE idMateriel = ?");
+			pst.setInt(1, id);
+			count += pst.executeUpdate();
 			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
-			if (count == 1) {
+			if (count == 2) {
 				rep = true;
 			}
 		} catch (SQLException erreur) {
@@ -201,7 +206,7 @@ public class M_gsbMat {
 		String libelle, type;
 		double largeur, longueur;
 		try {
-			req = "SELECT * FROM materiel;";
+			req = "SELECT * FROM Materiel;";
 			rs = st.executeQuery(req);
 			while (rs.next()) {
 				id = rs.getInt("id");
