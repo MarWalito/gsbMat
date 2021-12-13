@@ -19,6 +19,7 @@ public class M_gsbMat {
 	private static Statement st;
 	private static ResultSet rs;
 	private static int count; 
+	private static int count2;
 	private static PreparedStatement pst;
 	private static Pattern p;
     private static Matcher m;
@@ -146,13 +147,13 @@ public class M_gsbMat {
 			//Requ�te pr�par�
 			pst = connexion.prepareStatement( "DELETE FROM Materiel WHERE libelle = ?");
 			pst.setString(1, unType);
-			count += pst.executeUpdate();
+			count = pst.executeUpdate();
 			
 			pst = connexion.prepareStatement( "DELETE FROM empruntMat WHERE idMateriel = ?");
 			pst.setInt(1, id);
-			count += pst.executeUpdate();
+			count2 = pst.executeUpdate();
 			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
-			if (count == 2) {
+			if (count == 1 && count2 == 1) {
 				rep = true;
 			}
 		} catch (SQLException erreur) {
