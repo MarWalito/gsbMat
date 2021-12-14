@@ -162,7 +162,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 getContentPane().revalidate();
                 getContentPane().repaint();
             }else if (e.getSource().equals(affichageEmpruntMat)) {
-            	int idVis = M_gsbMat.rcpIdMat(unlogin);
+            	int idVis = M_gsbMat.rcpIdVis(unlogin);
                 getContentPane().removeAll();
                 getContentPane().add(new AfficherEmpruntMatV(M_gsbMat.recupCtnTblEmpruntMat(idVis)).getMonPanelGlobal());
                 getContentPane().revalidate();

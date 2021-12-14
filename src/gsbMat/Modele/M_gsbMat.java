@@ -32,7 +32,7 @@ public class M_gsbMat {
 	public static void connexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connexion = DriverManager.getConnection("jdbc:mysql://172.16.203.202/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "sio", "slam");
+			connexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "");
 			st = connexion.createStatement();
 		} catch (ClassNotFoundException erreur ) {
 			// TODO Auto-generated catch block
@@ -578,7 +578,7 @@ public class M_gsbMat {
 					dateDebut = rs.getString("dateDebut");
 					dateFin = rs.getString("dateFin");
 					duree = rs.getInt("duree");
-					lesEmpruntsMat.add(new EmpruntMat(idMateriel,dateDebut, dateFin, duree));
+					lesEmpruntsMat.add(new EmpruntMat(idMateriel,dateDebut,dateFin, duree));
 				}
 				rs.close() ;
 			} catch (SQLException erreur) {

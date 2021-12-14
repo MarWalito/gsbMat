@@ -7,10 +7,10 @@ public class EmpruntMat {
 	private String dateFin;
 	private int duree;
 	
-	public EmpruntMat (int unIdMateriel, String uneDateDebut, String uneDate, int uneDuree ) {
+	public EmpruntMat (int unIdMateriel, String uneDateDebut, String uneDateFin, int uneDuree ) {
 		this.idMateriel = unIdMateriel;
 		this.dateDebut = uneDateDebut;
-		this.dateFin = dateFin;
+		this.dateFin = uneDateFin;
 		this.duree = uneDuree;
 	}
 
