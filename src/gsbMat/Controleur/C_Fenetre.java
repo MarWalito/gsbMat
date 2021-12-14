@@ -51,6 +51,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
 
     //Pour la partie Visiteur
     private JMenuItem affichageStats;
+    private JMenuItem affichageStatsDir;
 
 
 
@@ -85,7 +86,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
         jtfPassword.setPreferredSize(new Dimension(150, 30));
         this.jtfPassword.setBackground(Color.pink);
         
-
+        //Ajouts des labels et jtf dans le panels
         panelConnexion.add(lblLogin);
         panelConnexion.add(jtfLogin);
         panelConnexion.add(lblPassword);
@@ -103,7 +104,6 @@ public class C_Fenetre extends JFrame implements ActionListener{
         imageTP.setIcon(imgTP);
         this.getContentPane().add(imageTP);
 
-        this.setAlwaysOnTop(true);
         this.getRootPane().setDefaultButton(btnConnexion);
         this.setVisible(true);
     }
@@ -115,29 +115,27 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 getContentPane().add(new C_Fenetre());
                 getContentPane().revalidate();
                 getContentPane().repaint();
-            }
-            //Panel Appartenant à la partie Responsable
-    		else if (e.getSource().equals(ajouterMateriel)) {
+            }else if (e.getSource().equals(ajouterMateriel)) {
     		    getContentPane().removeAll();
     		    getContentPane().add(new AjouterMaterielRS().getMonPanelGlobal());
     		    getContentPane().revalidate();
     		    getContentPane().repaint();
-    		} else if (e.getSource().equals(supprimerMateriel)) {
+    		}else if (e.getSource().equals(supprimerMateriel)) {
     		    getContentPane().removeAll();
     		    getContentPane().add(new SuppressionMaterielRS().getMonPanelGlobal());
     		    getContentPane().revalidate();
     		    getContentPane().repaint();
-    		} else if (e.getSource().equals(afficherMateriel)) {
+    		}else if (e.getSource().equals(afficherMateriel)) {
     		    getContentPane().removeAll();
     		    getContentPane().add(new AfficherMateriel(M_gsbMat.recupCtnTblMateriel()).getMonPanelGlobal());
     		    getContentPane().revalidate();
     		    getContentPane().repaint();
-    		} else if (e.getSource().equals(rechercherMateriel)) {
+    		}else if (e.getSource().equals(rechercherMateriel)) {
                 getContentPane().removeAll();
                 getContentPane().add(new RechercherMateriel().getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
-            } else if (e.getSource().equals(ajouterVehicule)) {
+            }else if (e.getSource().equals(ajouterVehicule)) {
                  getContentPane().removeAll();
                  getContentPane().add(new AjouterVehiculeRS().getMonPanelGlobal());
                  getContentPane().revalidate();
@@ -162,7 +160,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 getContentPane().add(new AjouterEmpruntMatV(unlogin).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
-            } else if (e.getSource().equals(affichageStats)) {
+            }else if (e.getSource().equals(affichageStats)) {
                 getContentPane().removeAll();
                 getContentPane().add(new AfficherStatsD(M_gsbMat.recupCtnTblStats()).getMonPanelGlobal());
                 getContentPane().revalidate();
@@ -170,6 +168,11 @@ public class C_Fenetre extends JFrame implements ActionListener{
             }else if (e.getSource().equals(emprunterVehicule)) {
                 getContentPane().removeAll();
                 getContentPane().add(new AjouterEmpruntVehV(unlogin).getMonPanelGlobal());
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }else if (e.getSource().equals(affichageStatsDir)) {
+                getContentPane().removeAll();
+                getContentPane().add(new AfficherStatsDir(M_gsbMat.recupCtnTblStatsEmprunt()).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
             }
@@ -194,18 +197,18 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 if (type.equals("S")) {
                 	result = new JTextArea ("Bienvenue Responsable de service " + newLine + "Votre Login : " +  login); 
                 	affichageMenuResponsable();
-                    panelConnexion.remove(btnConnexion);
+                    panelConnexion.remove(panelButton);
                 }
             	if (type.equals("D")) {
             		result = new JTextArea ("Bienvenue Directeur " + newLine + "Votre Login : " +  login); 
             		affichageMenuDirecteur();
-                    panelConnexion.remove(btnConnexion);
+                    panelConnexion.remove(panelButton);
             	}
         		if (type.equals("V")) {
         			this.unlogin = login;
         			result = new JTextArea ("Bienvenue Visiteur " + newLine + "Votre Login : " +  login); 
             		affichageMenuVisiteur();
-                    panelConnexion.remove(btnConnexion);
+                    panelConnexion.remove(panelButton);
         		}
             }
             panelConnexion.removeAll();
@@ -215,10 +218,10 @@ public class C_Fenetre extends JFrame implements ActionListener{
         }
     }
     public void affichageMenuResponsable() {
-	    // Cr?ation de la barre de menu
+	    // Création de la barre de menu
 	    JMenuBar menu = new JMenuBar();
 
-	    // Cr?ation des diff?rents menus
+	    // Création des différents menus
 	    JMenu menuRes = new JMenu("Menu Matériel");
 	    JMenu menuVeh = new JMenu("Menu Véhicule");
 	    JMenu menuUser = new JMenu("Menu User");
@@ -238,7 +241,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
         this.btnDeconnexion = new JMenuItem("Deconnexion");
         this.userGestion = new JMenuItem("Gestion User");
 	
-	    // Ajout de l'?l?ment au menu 
+	    // Ajout de l'élément au menu 
 	    menuRes.add(ajouterMateriel);
 	    menuRes.add(afficherMateriel);
 	    menuRes.add(rechercherMateriel);
@@ -284,25 +287,20 @@ public class C_Fenetre extends JFrame implements ActionListener{
 
 
         // Cr?ation d'?l?ment des menus
-        this.ajouterMateriel = new JMenuItem("***");
-        this.afficherMateriel = new JMenuItem("***");
-        this.rechercherMateriel = new JMenuItem("***");
-        this.supprimerMateriel = new JMenuItem("***");
-        this.affichageStats = new JMenuItem("Affichage des statistiques");
+        this.affichageStats = new JMenuItem("Affichage des statistiques N°1");
+        this.affichageStatsDir = new JMenuItem("Affichage des statistiques N°2");
         this.btnDeconnexion = new JMenuItem("Déconnexion");
         this.userGestion = new JMenuItem("Gestion User");
 
         // Ajout de l'élément au menu
-        menuRes.add(ajouterMateriel);
-        menuRes.add(afficherMateriel);
-        menuRes.add(rechercherMateriel);
-        menuRes.add(supprimerMateriel);
         menuRes.add(affichageStats);
+        menuRes.add(affichageStatsDir);
         menuRes.add(btnDeconnexion);
         menuUser.add(userGestion);
 
         //on ecoute les items du menu
         this.affichageStats.addActionListener(new ActionListe ());
+        this.affichageStatsDir.addActionListener(new ActionListe ());
         this.btnDeconnexion.addActionListener(new ActionListe ());
 
         // Ajout du menu dans la barre de menu

@@ -14,6 +14,10 @@ public class Materiel {
 		this.longueur = uneLongueur; 
 		this.type = unType; 
 	}
+	public Materiel (int unId, String unLibelle) {
+		this.id = unId; 
+		this.libelle = unLibelle;
+	}
 
 	public String getLibelle() {
 		return libelle;

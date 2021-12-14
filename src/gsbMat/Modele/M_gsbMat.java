@@ -533,6 +533,7 @@ public class M_gsbMat {
 	        } catch (SQLException e) {
 	            System.out.println("Erreur d'insertion d'un materiel.");
 	            e.printStackTrace();
+	            rep = false;
 	        }
 	        return rep;
 
@@ -580,6 +581,32 @@ public class M_gsbMat {
 					type = rs.getString("type");
 					login = rs.getString("login");
 					lesStats.add(new Stats(totalEmprunt,type,login));
+				}
+				rs.close() ;
+			} catch (SQLException erreur) {
+				// TODO Auto-generated catch block
+				System.out.println("Erreur --> Requ�te Recup ctn table " + erreur);
+				erreur.printStackTrace();
+			}
+			return lesStats;
+		}
+		
+		public static ArrayList<Stats> recupCtnTblStatsEmprunt() {
+			M_gsbMat.connexion();
+			ArrayList<Stats> lesStats;
+			lesStats = new ArrayList<Stats>();
+			String req, nomMateriel;
+			int totalEmprunt;
+			int idMateriel;
+			try {
+				req = "SELECT COUNT(*) AS totalEmprunt, id, libelle FROM empruntMat EM, Materiel M WHERE EM.idMateriel = M.id GROUP BY idMateriel ORDER BY totalEmprunt DESC;";
+				rs = st.executeQuery(req);
+				while (rs.next()) {
+					totalEmprunt = rs.getInt("totalEmprunt");
+					idMateriel = rs.getInt("id");
+					nomMateriel = rs.getString("libelle");
+					Materiel unMateriel = new Materiel(idMateriel, nomMateriel);
+					lesStats.add(new Stats(totalEmprunt,unMateriel));
 				}
 				rs.close() ;
 			} catch (SQLException erreur) {
