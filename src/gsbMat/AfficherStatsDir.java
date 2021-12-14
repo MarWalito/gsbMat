@@ -40,7 +40,7 @@ public class AfficherStatsDir extends JPanel implements ActionListener {
         this.monPanel.setBackground(Color.pink);
         this.monPanelGlobal.setBackground(Color.pink);
         
-        btnpdf = new JButton ("Valider");
+        btnpdf = new JButton ("PDF");
         btnpdf.addActionListener(this);
         panelButton.add(btnpdf);
         
@@ -88,7 +88,7 @@ public class AfficherStatsDir extends JPanel implements ActionListener {
         	MessageFormat enbas = new MessageFormat("Page N°{0,number,integer}");
 
              try {
-            	 tableau.print(JTable.PrintMode.NORMAL, entete, enbas );
+            	 this.tableau.print(JTable.PrintMode.NORMAL, entete, enbas );
              }catch(java.awt.print.PrinterException ev) {
             	 System.err.format("Soucis impression", ev.getMessage());
              }
