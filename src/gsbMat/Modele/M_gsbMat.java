@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gsbMat.EmpruntMat;
 import gsbMat.Materiel;
 import gsbMat.Stats;
 import gsbMat.Vehicule;
@@ -559,8 +560,34 @@ public class M_gsbMat {
 	            e.printStackTrace();
 	        }
 	        return rep;
-
 	    }
+		
+		public static ArrayList<EmpruntMat> recupCtnTblEmpruntMat(int unIdVisiteur) {
+			M_gsbMat.connexion();
+			ArrayList<EmpruntMat> lesEmpruntsMat;
+			lesEmpruntsMat = new ArrayList<EmpruntMat>();
+			String req;
+			int idMateriel, duree;
+			String dateDebut, dateFin;
+			try {
+	        	pst = connexion.prepareStatement("SELECT * FROM empruntMat WHERE idVisiteur = ?;");
+	        	pst.setInt(1, unIdVisiteur);
+	        	rs = pst.executeQuery();
+				while (rs.next()) {
+					idMateriel = rs.getInt("idMateriel");
+					dateDebut = rs.getString("dateDebut");
+					dateFin = rs.getString("dateFin");
+					duree = rs.getInt("duree");
+					lesEmpruntsMat.add(new EmpruntMat(idMateriel,dateDebut, dateFin, duree));
+				}
+				rs.close() ;
+			} catch (SQLException erreur) {
+				// TODO Auto-generated catch block
+				System.out.println("Erreur --> Requ�te Recup ctn table " + erreur);
+				erreur.printStackTrace();
+			}
+			return lesEmpruntsMat;
+		}
 
 
 
