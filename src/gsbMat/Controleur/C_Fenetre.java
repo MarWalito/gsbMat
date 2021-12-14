@@ -47,6 +47,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
     private JMenuItem listeReservation;
     private JMenuItem emprunterMateriel;
     private JMenuItem emprunterVehicule;
+    private JMenuItem suppressionEmpruntMat;
     private JMenuItem userGestion;
 
     //Pour la partie Visiteur
@@ -181,6 +182,11 @@ public class C_Fenetre extends JFrame implements ActionListener{
             }else if (e.getSource().equals(affichageStatsDir)) {
                 getContentPane().removeAll();
                 getContentPane().add(new AfficherStatsDir(M_gsbMat.recupCtnTblStatsEmprunt()).getMonPanelGlobal());
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }else if (e.getSource().equals(suppressionEmpruntMat)) {
+                getContentPane().removeAll();
+                getContentPane().add(new SuppressionEmpruntMatV().getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
             }
@@ -331,6 +337,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
         this.rechercherMateriel = new JMenuItem("Rechercher du Materiel");
         this.emprunterMateriel = new JMenuItem("Emprunter Materiel");
         this.emprunterVehicule = new JMenuItem("Emprunter Véhicule");
+        this.suppressionEmpruntMat = new JMenuItem("Supprimer emprunt matériel");
         this.btnDeconnexion = new JMenuItem("Déconnexion");
         this.userGestion = new JMenuItem("Gestion User");
 
@@ -339,6 +346,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
         menuVisi.add(rechercherMateriel);
         menuVisi.add(emprunterMateriel);
         menuVisi.add(emprunterVehicule);
+        menuVisi.add(suppressionEmpruntMat);
         menuVisi.add(btnDeconnexion);
         menuUser.add(userGestion);
 
@@ -346,6 +354,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
         this.affichageEmpruntMat.addActionListener(new ActionListe());
         this.emprunterMateriel.addActionListener(new ActionListe ());
         this.emprunterVehicule.addActionListener(new ActionListe ());
+        this.suppressionEmpruntMat.addActionListener(new ActionListe ());
         this.btnDeconnexion.addActionListener(new ActionListe ());
 
         // Ajout du menu dans la barre de menu

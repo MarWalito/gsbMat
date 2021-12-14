@@ -456,6 +456,29 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
+	
+	public static boolean deleteEmpruntMat (int unId) {
+		M_gsbMat.connexion();
+		boolean rep; 
+		int nbLogin;
+		rep = false;
+		nbLogin = 0;
+		try {
+			//Requ�te pr�par�
+			pst = connexion.prepareStatement( "DELETE FROM empruntMat WHERE idMateriel = ?");
+			pst.setInt(1, unId);
+			count = pst.executeUpdate();
+			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
+			if (count == 1) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requ�te suppression emprunt " + erreur);
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
 	// ========== PARTIE VEHICULE ==========
 	
 	// ========== PARTIE EMPRUNT ==========
