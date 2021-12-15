@@ -54,6 +54,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
     private JMenuItem affichageStats;
     private JMenuItem affichageStatsDir;
     private JMenuItem affichageEmpruntMat;
+    private JMenuItem affichageEmpruntVeh;
 
 
 
@@ -62,6 +63,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
     
     
     private String unlogin;
+    private String uneErreur;
     
     public C_Fenetre() {
     	this.setTitle("GSB Mat");
@@ -168,8 +170,13 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 getContentPane().add(new AfficherEmpruntMatV(M_gsbMat.recupCtnTblEmpruntMat(idVis)).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
-            }
-            else if (e.getSource().equals(affichageStats)) {
+            }else if (e.getSource().equals(affichageEmpruntVeh)) {
+            	int idVis = M_gsbMat.rcpIdVis(unlogin);
+                getContentPane().removeAll();
+                getContentPane().add(new AfficherEmpruntVehV(M_gsbMat.recupCtnTblEmpruntVeh(idVis)).getMonPanelGlobal());
+                getContentPane().revalidate();
+                getContentPane().repaint();
+            }else if (e.getSource().equals(affichageStats)) {
                 getContentPane().removeAll();
                 getContentPane().add(new AfficherStatsD(M_gsbMat.recupCtnTblStats()).getMonPanelGlobal());
                 getContentPane().revalidate();
@@ -333,7 +340,8 @@ public class C_Fenetre extends JFrame implements ActionListener{
 
 
         // Cr?ation d'?l?ment des menus
-        this.affichageEmpruntMat = new JMenuItem("Voir les réservations");
+        this.affichageEmpruntMat = new JMenuItem("Voir les réservations matériel");
+        this.affichageEmpruntVeh = new JMenuItem("Voir les réservations véhicule");
         this.rechercherMateriel = new JMenuItem("Rechercher du Materiel");
         this.emprunterMateriel = new JMenuItem("Emprunter Materiel");
         this.emprunterVehicule = new JMenuItem("Emprunter Véhicule");
@@ -343,6 +351,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
 
         // Ajout de l'él?ment au menu
         menuVisi.add(affichageEmpruntMat);
+        menuVisi.add(affichageEmpruntVeh);
         menuVisi.add(rechercherMateriel);
         menuVisi.add(emprunterMateriel);
         menuVisi.add(emprunterVehicule);
@@ -352,6 +361,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
 
         //on ecoute les items du menu
         this.affichageEmpruntMat.addActionListener(new ActionListe());
+        this.affichageEmpruntVeh.addActionListener(new ActionListe());
         this.emprunterMateriel.addActionListener(new ActionListe ());
         this.emprunterVehicule.addActionListener(new ActionListe ());
         this.suppressionEmpruntMat.addActionListener(new ActionListe ());

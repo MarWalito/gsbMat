@@ -128,6 +128,7 @@ public class AjouterEmpruntVehV extends JPanel implements ActionListener{
     		java.sql.Date dateDebut = (java.sql.Date) AjouterEmpruntVehV.this.datePicker.getModel().getValue();
     		java.sql.Date dateFin = (java.sql.Date) AjouterEmpruntVehV.this.datePicker2.getModel().getValue();
     		float duree = Integer.parseInt(jtfDuree.getText());
+    		
     		if(M_gsbMat.addEmpruntV(idVeh, dateDebut, dateFin,duree,idVisiteur)) {
     			panelGlobal.remove(affichage);
     			affichage.setText("Ajout good");
@@ -137,7 +138,7 @@ public class AjouterEmpruntVehV extends JPanel implements ActionListener{
     		}
     		else {
     			panelGlobal.remove(affichage);
-    			affichage.setText("Ajout pas bon");
+    			affichage.setText("Ajout pas good / SQLState : " + M_gsbMat.getErreurAjoutEmprunt());
     			panelGlobal.add(affichage);
         		panelGlobal.revalidate();
         		panelGlobal.repaint(); 

@@ -10,12 +10,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gsbMat.EmpruntMat;
+import gsbMat.EmpruntVeh;
 import gsbMat.Materiel;
 import gsbMat.Stats;
 import gsbMat.Vehicule;
 
 public class M_gsbMat {
 	
+	private static final boolean SQLException = false;
 	private static Connection connexion;
 	private static Statement st;
 	private static ResultSet rs;
@@ -25,6 +27,7 @@ public class M_gsbMat {
 	private static Pattern p;
     private static Matcher m;
     private static String user;
+    private static String erreurAjoutEmprunt;
 	
 	/**
 	 * Mï¿½thode static pour la connexion
@@ -32,7 +35,7 @@ public class M_gsbMat {
 	public static void connexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "");
+			connexion = DriverManager.getConnection("jdbc:mysql://172.16.203.202/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "sio", "slam");
 			st = connexion.createStatement();
 		} catch (ClassNotFoundException erreur ) {
 			// TODO Auto-generated catch block
@@ -313,11 +316,16 @@ public class M_gsbMat {
 		int nbLogin;
 		rep = false;
 		nbLogin = 0;
+		int id = M_gsbMat.rcpIdVeh(uneImmat);
 		try {
 			//Requï¿½te prï¿½parï¿½
 			pst = connexion.prepareStatement( "DELETE FROM Vehicule WHERE immat = ?");
 			pst.setString(1, uneImmat);
 			count = pst.executeUpdate();
+			
+			pst = connexion.prepareStatement( "DELETE FROM empruntMat WHERE idMateriel = ?");
+			pst.setInt(1, id);
+			count2 = pst.executeUpdate();
 			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
 			if (count == 1) {
 				rep = true;
@@ -479,6 +487,29 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
+	
+	public static boolean deleteEmpruntVeh (int unId) {
+		M_gsbMat.connexion();
+		boolean rep; 
+		int nbLogin;
+		rep = false;
+		nbLogin = 0;
+		try {
+			//Requï¿½te prï¿½parï¿½
+			pst = connexion.prepareStatement( "DELETE FROM empruntVeh WHERE idVehicule = ?");
+			pst.setInt(1, unId);
+			count = pst.executeUpdate();
+			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
+			if (count == 1) {
+				rep = true;
+			}
+		} catch (SQLException erreur) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur --> Requï¿½te suppression emprunt véhicule " + erreur);
+			erreur.printStackTrace();
+		}
+		return rep;
+	}
 	// ========== PARTIE VEHICULE ==========
 	
 	// ========== PARTIE EMPRUNT ==========
@@ -577,13 +608,19 @@ public class M_gsbMat {
 	            result = pst.executeUpdate();
 	            if (result == 1) {
 	                rep = true;
-	            }
+	            } 
 	        } catch (SQLException e) {
 	            System.out.println("Erreur d'insertion d'un materiel.");
-	            e.printStackTrace();
+	            erreurAjoutEmprunt =  e.getMessage();
+	            //made by Jeremy, Mme Touillon, Enzo, Yohann
+	            
 	        }
 	        return rep;
 	    }
+		
+		public static String getErreurAjoutEmprunt() {
+			return erreurAjoutEmprunt;
+		}//made by Jeremy, Mme Touillon, Enzo, Yohann
 		
 		public static ArrayList<EmpruntMat> recupCtnTblEmpruntMat(int unIdVisiteur) {
 			M_gsbMat.connexion();
@@ -610,6 +647,33 @@ public class M_gsbMat {
 				erreur.printStackTrace();
 			}
 			return lesEmpruntsMat;
+		}
+		
+		public static ArrayList<EmpruntVeh> recupCtnTblEmpruntVeh(int unIdVisiteur) {
+			M_gsbMat.connexion();
+			ArrayList<EmpruntVeh> lesEmpruntsVeh;
+			lesEmpruntsVeh = new ArrayList<EmpruntVeh>();
+			String req;
+			int idVehicule, duree;
+			String dateDebut, dateFin;
+			try {
+	        	pst = connexion.prepareStatement("SELECT * FROM empruntVeh WHERE idVisiteur = ?;");
+	        	pst.setInt(1, unIdVisiteur);
+	        	rs = pst.executeQuery();
+				while (rs.next()) {
+					idVehicule = rs.getInt("idVehicule");
+					dateDebut = rs.getString("dateDebut");
+					dateFin = rs.getString("dateFin");
+					duree = rs.getInt("duree");
+					lesEmpruntsVeh.add(new EmpruntVeh(idVehicule,dateDebut,dateFin, duree));
+				}
+				rs.close() ;
+			} catch (SQLException erreur) {
+				// TODO Auto-generated catch block
+				System.out.println("Erreur --> Requï¿½te Recup ctn table " + erreur);
+				erreur.printStackTrace();
+			}
+			return lesEmpruntsVeh;
 		}
 
 
