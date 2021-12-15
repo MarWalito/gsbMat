@@ -38,7 +38,7 @@ public class SuppressionMaterielRS extends JPanel implements ActionListener{
 		titre = new JLabel("Supprimer un matériel");
 		
 		panelGlobal.add(titre, BorderLayout.CENTER);
-		
+		//Ajout label
 		lblType = new JLabel("Quel est le type du matériel ? ");
 		panelGlobal.add(lblType, BorderLayout.CENTER);
 		//combo Box
@@ -62,6 +62,7 @@ public class SuppressionMaterielRS extends JPanel implements ActionListener{
 		affichage = new JLabel ("");
 		panelGlobal.add(affichage);
     }
+    //Action perform pour valider la recherche lorsqu'on sélectionne un truc dans la combo box
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
     		

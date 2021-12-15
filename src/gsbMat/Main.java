@@ -10,7 +10,6 @@ public class Main {
 
 	public static void main(String[] args) throws UnsupportedLookAndFeelException {
 		// TODO Auto-generated method stub
-		
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		C_Fenetre connexion = new C_Fenetre();
 	}	

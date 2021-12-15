@@ -37,7 +37,7 @@ public class RechercherMateriel extends JPanel implements ActionListener{
 		titre = new JLabel("Rechercher un matériel");
 		
 		panelGlobal.add(titre, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblLibelle = new JLabel("Quel est le libelle du matériel ? ");
 		panelGlobal.add(lblLibelle, BorderLayout.CENTER);
 		jtfLibelle = new JTextField("");
@@ -51,6 +51,7 @@ public class RechercherMateriel extends JPanel implements ActionListener{
 		affichage = new JLabel ("");
 		panelGlobal.add(affichage);
     }
+	//Action performe pour la recherche lorsqu'on appuie sur le boutton
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
     		String libelle = jtfLibelle.getText();

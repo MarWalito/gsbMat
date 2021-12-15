@@ -21,7 +21,7 @@ public class AfficherMateriel extends JPanel{
     private JLabel lblContenuContacts;
     private JTable tableau;
     private JScrollPane scrollPane;
-    //On passe en paramètre une collection afin qu'il puisse afficher les circuits
+    //On passe en paramètre une collection afin qu'il puisse afficher les matériel
     public AfficherMateriel(ArrayList<Materiel> uneListeMateriel) {
     	//Declaration des panels, des bordures et des couleurs
         this.panelTitre = new JPanel();

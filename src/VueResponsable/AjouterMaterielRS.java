@@ -45,27 +45,27 @@ public class AjouterMaterielRS extends JPanel implements ActionListener{
 		//Label
 		titre = new JLabel("Ajouter un materiel");
 		panelGlobal.add(titre, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblId = new JLabel("Quel est l'id du materiel ? ");
 		panelGlobal.add(lblId, BorderLayout.CENTER);
 		jtfId = new JTextField("");
 		panelGlobal.add(jtfId, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblLibelle = new JLabel("Quel est le libelle du materiel ? ");
 		panelGlobal.add(lblLibelle, BorderLayout.CENTER);
 		jtfLibelle = new JTextField("");
 		panelGlobal.add(jtfLibelle, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblLongueur = new JLabel("Quelle est la largeur ? ");
 		panelGlobal.add(lblLongueur, BorderLayout.CENTER);
 		jtfLargeur = new JTextField("");
 		panelGlobal.add(jtfLargeur, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblLongueur = new JLabel("Quelle est la longueur ? ");
 		panelGlobal.add(lblLongueur, BorderLayout.CENTER);
 		jtfLongueur = new JTextField("");
 		panelGlobal.add(jtfLongueur, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblType = new JLabel("Quelle est le type ? ");
 		panelGlobal.add(lblType, BorderLayout.CENTER);
 		jtfType = new JTextField("");
@@ -79,6 +79,7 @@ public class AjouterMaterielRS extends JPanel implements ActionListener{
 		affichage = new JLabel ("");
 		panelGlobal.add(affichage);
     }
+	//Action performe pour faire l'insertion lorsque l'on appuie sur le bouton
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
     		int id = Integer.parseInt(jtfId.getText());

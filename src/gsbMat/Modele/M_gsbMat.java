@@ -30,7 +30,7 @@ public class M_gsbMat {
     private static String erreurAjoutEmprunt;
 	
 	/**
-	 * Mï¿½thode static pour la connexion
+	 * Méthode static pour la connexion
 	 */
 	public static void connexion() {
 		try {
@@ -45,7 +45,7 @@ public class M_gsbMat {
 		}
 	}
 	/**
-	 * Mï¿½thode static pour la dï¿½connexion
+	 * Méthode static pour la déconnexion
 	 */
 	public static void deconnexion() {
 
@@ -56,7 +56,12 @@ public class M_gsbMat {
 			System.out.println("Dï¿½connexion --> Pas la " + erreur);
 		}
 	}
-
+	/**
+	 * Fonction permettant la connexion de l'utilisateur
+	 * @param unLogin
+	 * @param unMdp
+	 * @return
+	 */
 	public static boolean connexion(String unLogin, String unMdp) {
 		M_gsbMat.connexion();
 		boolean rep; 
@@ -85,34 +90,24 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
-	
+	/**
+	 * Fonction permettant de retourner le type de l'utilisateur
+	 * @return
+	 */
 	public static String getType() {
 		return M_gsbMat.user;
 	}
-	
-	public static boolean modifPassword(String unMdpActuel, String unNouveauMdp) {
-		M_gsbMat.connexion();
-		boolean rep; 
-		int nbLogin;
-		rep = false;
-		nbLogin = 0;
-		try {
-			//Requï¿½te prï¿½parï¿½
-			pst = connexion.prepareStatement( "UPDATE User SET password = sha1(?) WHERE password = sha1(?)");
-			pst.setString(1, unNouveauMdp);
-			pst.setString(2, unMdpActuel);
-			count = pst.executeUpdate();
-			//Si nbLogin = 1 alors on met rep = true pour pouvoir se connecter
-			if (count == 1) {
-				rep = true;
-			}
-		} catch (SQLException erreur) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur --> Requï¿½te rï¿½cupï¿½ration " + erreur);
-		}
-		return rep;
-	}
+
 	// ========== PARTIE MATERIEL ==========
+	/**
+	 * Fonction permettant aux reponsables de service d'ajouter du matériel
+	 * @param unId
+	 * @param unLibelle
+	 * @param uneLargeur
+	 * @param uneLongeur
+	 * @param unType
+	 * @return
+	 */
 	public static boolean addMateriel(int unId, String unLibelle, double uneLargeur, double uneLongeur, String unType) {
 		M_gsbMat.connexion();
 		boolean rep; 
@@ -139,7 +134,11 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
-	
+	/**
+	 * Fonction permettant aux responsables de service de supprimer du matérie
+	 * @param unType
+	 * @return
+	 */
 	public static boolean deleteMateriel (String unType) {
 		M_gsbMat.connexion();
 		boolean rep; 
@@ -169,7 +168,10 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
-	
+	/**
+	 * Permet de récupérer la liste du materiel pour les menus déroulants
+	 * @return
+	 */
 	public static ArrayList<String> recupListeMateriel() {
         M_gsbMat.connexion();
         ArrayList<String> liste = new ArrayList<String>();
@@ -187,7 +189,10 @@ public class M_gsbMat {
         }
         return liste;
     }
-	
+	/**
+	 * Permet de définir la taille du menu déroulant du matériel
+	 * @return
+	 */
 	public static int getNbMateriel() {
 		M_gsbMat.connexion();
         int rep = 0;
@@ -203,7 +208,10 @@ public class M_gsbMat {
         }
         return rep;
     }
-	
+	/**
+	 * Permet de récupérer le contenue de la table matériel et de l'afficher
+	 * @return
+	 */
 	public static ArrayList<Materiel> recupCtnTblMateriel() {
 		M_gsbMat.connexion();
 		ArrayList<Materiel> lesMateriels;
@@ -231,7 +239,11 @@ public class M_gsbMat {
 		}
 		return lesMateriels;
 	}
-	
+	/**
+	 * Fonction pour chercher un matériel
+	 * @param unLibelle
+	 * @return
+	 */
 	public static boolean searchMateriel(String unLibelle) {
 		M_gsbMat.connexion();
 		boolean rep = false;
@@ -253,6 +265,11 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
+	/**
+	 * Permet de récupérer les informations du matériel rechercher
+	 * @param unLibelle
+	 * @return
+	 */
 	public static String getInfoMateriel(String unLibelle) {
 		M_gsbMat.connexion();
 		String rep = "";
@@ -283,6 +300,15 @@ public class M_gsbMat {
 	// ========== PARTIE MATERIEL ==========
 	
 	// ========== PARTIE VEHICULE ==========
+	/**
+	 * Permet d'ajouter un véhicule dans le catalogue
+	 * @param unId
+	 * @param uneImmat
+	 * @param unModele
+	 * @param uneMarque
+	 * @param unNbPlaces
+	 * @return
+	 */
 	public static boolean addVehicule(int unId, String uneImmat, String unModele, String uneMarque, int unNbPlaces) {
 		M_gsbMat.connexion();
 		boolean rep; 
@@ -309,7 +335,11 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
-	
+	/**
+	 * Permet de supprimer un véhicule du catalogue
+	 * @param uneImmat
+	 * @return
+	 */
 	public static boolean deleteVehicule (String uneImmat) {
 		M_gsbMat.connexion();
 		boolean rep; 
@@ -337,7 +367,10 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
-	
+	/**
+	 * Permet de récupérer les immatriculations pour un menu déroulant
+	 * @return
+	 */
 	public static ArrayList<String> recupListeVehicule() {
         M_gsbMat.connexion();
         ArrayList<String> liste = new ArrayList<String>();
@@ -355,7 +388,10 @@ public class M_gsbMat {
         }
         return liste;
     }
-	
+	/**
+	 * Permet de récupérer les modèles des véhicules pour un menu déroulant
+	 * @return
+	 */
 	public static ArrayList<String> recupListeModeleVehicule() {
         M_gsbMat.connexion();
         ArrayList<String> liste = new ArrayList<String>();
@@ -373,7 +409,10 @@ public class M_gsbMat {
         }
         return liste;
     }
-	
+	/**
+	 * Permet de récupérer le nombre d'élement pour la taille du menu déroulant
+	 * @return
+	 */
 	public static int getNbVehicule() {
 		M_gsbMat.connexion();
         int rep = 0;
@@ -389,7 +428,10 @@ public class M_gsbMat {
         }
         return rep;
     }
-	
+	/**
+	 * Récupére les éléments de la table véhicule pour l'afficher
+	 * @return
+	 */
 	public static ArrayList<Vehicule> recupCtnTblVehicule() {
 		M_gsbMat.connexion();
 		ArrayList<Vehicule> lesVehicules;
@@ -416,7 +458,11 @@ public class M_gsbMat {
 		}
 		return lesVehicules;
 	}
-	
+	/**
+	 * Permet de rechercher un véhicule par son immatriculation
+	 * @param uneImmat
+	 * @return
+	 */
 	public static boolean searchVehicule(String uneImmat) {
 		M_gsbMat.connexion();
 		boolean rep = false;
@@ -438,6 +484,11 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
+	/**
+	 * Permet de renvoyer les infos du véhicule rechercher
+	 * @param uneImmat
+	 * @return
+	 */
 	public static String getInfoVehicule(String uneImmat) {
 		M_gsbMat.connexion();
 		String rep = "";
@@ -464,7 +515,11 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
-	
+	/**
+	 * Permet de supprimer un emprunt matériel
+	 * @param unId
+	 * @return
+	 */
 	public static boolean deleteEmpruntMat (int unId) {
 		M_gsbMat.connexion();
 		boolean rep; 
@@ -487,7 +542,11 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
-	
+	/**
+	 * Permet de supprimer un emprunt véhicule
+	 * @param unId
+	 * @return
+	 */
 	public static boolean deleteEmpruntVeh (int unId) {
 		M_gsbMat.connexion();
 		boolean rep; 
@@ -510,7 +569,11 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
-	
+	/**
+	 * Permet de récupérer les emprunts véhicules pour un menu déroulant
+	 * @param unId
+	 * @return
+	 */
 	public static ArrayList<String> recupListeEmpruntVeh(int unId) {
         M_gsbMat.connexion();
         ArrayList<String> liste = new ArrayList<String>();
@@ -533,6 +596,11 @@ public class M_gsbMat {
 	// ========== PARTIE VEHICULE ==========
 	
 	// ========== PARTIE EMPRUNT ==========
+		/**
+		 * Permet de récupérer l'id matériel à partir d'un nom
+		 * @param unNomMateriel
+		 * @return
+		 */
 		public static int rcpIdMat(String unNomMateriel) {
 			M_gsbMat.connexion();
 			int idMat = 0;
@@ -551,7 +619,11 @@ public class M_gsbMat {
 			}
 			return idMat;
 		}
-		
+		/**
+		 * Permet de récupérer l'id visiteur à partir d'un login
+		 * @param unLogin
+		 * @return
+		 */
 		public static int rcpIdVis(String unLogin) {
 			M_gsbMat.connexion();
 			int idMat = 0;
@@ -570,7 +642,11 @@ public class M_gsbMat {
 			}
 			return idMat;
 		}
-		
+		/**
+		 * Permet de récupérer un id véhicule à partir d'un modèle
+		 * @param unModele
+		 * @return
+		 */
 		public static int rcpIdVeh(String unModele) {
 			M_gsbMat.connexion();
 			int idMat = 0;
@@ -589,7 +665,15 @@ public class M_gsbMat {
 			}
 			return idMat;
 		}
-		
+		/**
+		 * Permet d'ajouter un emprunt matériel
+		 * @param unIdMateriel
+		 * @param uneDateDebut
+		 * @param uneDateFin
+		 * @param uneDuree
+		 * @param unIdVisiteur
+		 * @return
+		 */
 		public static boolean addEmpruntM(int unIdMateriel, Date uneDateDebut, Date uneDateFin, float uneDuree, int unIdVisiteur) {
 			M_gsbMat.connexion();
 	        boolean rep = false;
@@ -612,7 +696,15 @@ public class M_gsbMat {
 	        return rep;
 
 	    }
-		
+		/**
+		 * Permet d'ajouter un emprunt véhicule
+		 * @param unIdVehicule
+		 * @param uneDateDebut
+		 * @param uneDateFin
+		 * @param uneDuree
+		 * @param unIdVisiteur
+		 * @return
+		 */
 		public static boolean addEmpruntV(int unIdVehicule, Date uneDateDebut, Date uneDateFin, float uneDuree, int unIdVisiteur) {
 			M_gsbMat.connexion();
 	        boolean rep = false;
@@ -634,11 +726,18 @@ public class M_gsbMat {
 	        }
 	        return rep;
 	    }
-		
+		/**
+		 * Permet de retourner les messages d'erreur
+		 * @return
+		 */
 		public static String getErreurAjoutEmprunt() {
 			return erreurAjoutEmprunt;
 		}//made by Jeremy, Mme Touillon, Enzo, Yohann
-		
+		/**
+		 * Permet de récupérer le contenue de la table emprunt mat et de l'afficher
+		 * @param unIdVisiteur
+		 * @return
+		 */
 		public static ArrayList<EmpruntMat> recupCtnTblEmpruntMat(int unIdVisiteur) {
 			M_gsbMat.connexion();
 			ArrayList<EmpruntMat> lesEmpruntsMat;
@@ -668,7 +767,11 @@ public class M_gsbMat {
 			}
 			return lesEmpruntsMat;
 		}
-		
+		/**
+		 * Permet de récupérer le contenue de la table emprunt véhicule et de l'afficher
+		 * @param unIdVisiteur
+		 * @return
+		 */
 		public static ArrayList<EmpruntVeh> recupCtnTblEmpruntVeh(int unIdVisiteur) {
 			M_gsbMat.connexion();
 			ArrayList<EmpruntVeh> lesEmpruntsVeh;
@@ -698,7 +801,11 @@ public class M_gsbMat {
 			}
 			return lesEmpruntsVeh;
 		}
-		
+		/**
+		 * Permet de récupérer le nombre d'emprunt véhicule pour la taille du menu déroulant
+		 * @param unId
+		 * @return
+		 */
 		public static int getNbEmpruntVeh(int unId) {
 			M_gsbMat.connexion();
 	        int rep = 0;
@@ -716,7 +823,11 @@ public class M_gsbMat {
 	        }
 	        return rep;
 	    }
-		
+		/**
+		 * Permet de récupérer la liste des emprunts matériels en fonction de l'id du visiteur pour le menu déroulant
+		 * @param unId
+		 * @return
+		 */
 		public static ArrayList<String> recupListeEmpruntMat(int unId) {
 	        M_gsbMat.connexion();
 	        ArrayList<String> liste = new ArrayList<String>();
@@ -736,7 +847,11 @@ public class M_gsbMat {
 	        }
 	        return liste;
 	    }
-		
+		/**
+		 * Permet de récupérer la taille de la table emprunt matériel pour la liste déroulante
+		 * @param unId
+		 * @return
+		 */
 		public static int getNbEmpruntMat(int unId) {
 			M_gsbMat.connexion();
 	        int rep = 0;
@@ -758,7 +873,10 @@ public class M_gsbMat {
 
 
 		// ========== PARTIE DIRECTEUR STATISTIQUES  ==========
-
+		/**
+		 * Permet de récupérer une statistique
+		 * @return
+		 */
 		public static ArrayList<Stats> recupCtnTblStats() {
 			M_gsbMat.connexion();
 			ArrayList<Stats> lesStats;
@@ -783,7 +901,10 @@ public class M_gsbMat {
 			}
 			return lesStats;
 		}
-		
+		/**
+		 * Permet de récupérer une deuxième statistique
+		 * @return
+		 */
 		public static ArrayList<Stats> recupCtnTblStatsEmprunt() {
 			M_gsbMat.connexion();
 			ArrayList<Stats> lesStats;

@@ -26,7 +26,7 @@ public class AfficherStatsD extends JPanel implements ActionListener {
     private JButton btnpdf;
     private JScrollPane scrollPane;
     
-    //On passe en paramètre une collection afin qu'il puisse afficher les circuits
+    //On passe en paramètre une collection afin qu'il puisse afficher les statistiques
     public AfficherStatsD(ArrayList<Stats> uneListeStats) {
         //Declaration des panels, des bordures et des couleurs
         this.panelTitre = new JPanel();

@@ -21,7 +21,7 @@ public class AfficherVehicule extends JPanel{
     private JLabel lblContenuContacts;
     private JTable tableau;
     private JScrollPane scrollPane;
-    //On passe en paramètre une collection afin qu'il puisse afficher les circuits
+    //On passe en paramètre une collection afin qu'il puisse afficher les véhicule
     public AfficherVehicule(ArrayList<Vehicule> uneListeVehicule) {
     	//Declaration des panels, des bordures et des couleurs
         this.panelTitre = new JPanel();

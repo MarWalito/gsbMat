@@ -43,27 +43,27 @@ public class AjouterVehiculeRS extends JPanel implements ActionListener{
 		titre = new JLabel("Ajouter un véhicule");
 		
 		panelGlobal.add(titre, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblId = new JLabel("Quel est l'id du véhicule ? ");
 		panelGlobal.add(lblId, BorderLayout.CENTER);
 		jtfId = new JTextField("");
 		panelGlobal.add(jtfId, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblLibelle = new JLabel("Quel est l'immatriculation du véhicule ?( XX-000-XX) ");
 		panelGlobal.add(lblLibelle, BorderLayout.CENTER);
 		jtfLibelle = new JTextField("");
 		panelGlobal.add(jtfLibelle, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblLargeur = new JLabel("Quelle est le modèle ? ");
 		panelGlobal.add(lblLargeur, BorderLayout.CENTER);
 		jtfLargeur = new JTextField("");
 		panelGlobal.add(jtfLargeur, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblLongueur = new JLabel("Quelle est la marque ? ");
 		panelGlobal.add(lblLongueur, BorderLayout.CENTER);
 		jtfLongueur = new JTextField("");
 		panelGlobal.add(jtfLongueur, BorderLayout.CENTER);
-		
+		//Ajout label + jtf
 		lblType = new JLabel("Quelle est le nombre de places ? ");
 		panelGlobal.add(lblType, BorderLayout.CENTER);
 		jtfType = new JTextField("");
@@ -77,6 +77,7 @@ public class AjouterVehiculeRS extends JPanel implements ActionListener{
 		affichage = new JLabel ("");
 		panelGlobal.add(affichage);
     }
+	//Action performe pour faire l'insertion lorsque l'on appuie sur le bouton
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
     		int id = Integer.parseInt(jtfId.getText());

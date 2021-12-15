@@ -26,7 +26,7 @@ public class AfficherStatsDir extends JPanel implements ActionListener {
     private JLabel lblContenuContacts;
     private JTable tableau;
     private JScrollPane scrollPane;
-    //On passe en paramètre une collection afin qu'il puisse afficher les circuits
+    //On passe en paramètre une collection afin qu'il puisse afficher les statistiques
     public AfficherStatsDir(ArrayList<Stats> uneListeStats) {
         //Declaration des panels, des bordures et des couleurs
         this.panelTitre = new JPanel();

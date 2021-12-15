@@ -45,7 +45,7 @@ public class C_Fenetre extends JFrame implements ActionListener{
     //Barre de menu
     private JMenuBar menu;
     private JMenuBar menuVis;
-    //Item des diff?rents menus
+    //Item des différents menus
 
     //Pour la partie Responsable
     private JMenuItem ajouterMateriel;
@@ -217,24 +217,32 @@ public class C_Fenetre extends JFrame implements ActionListener{
     	}
     }
     public void actionPerformed ( ActionEvent evenement) {
+    	//On vérifie l'appelle du bouton connexion
         if(evenement.getSource() == btnConnexion) {
+        	//On récupère le login et le password saisis
             String login = jtfLogin.getText();
             String password = jtfPassword.getText();
             String newLine = System.getProperty("line.separator");	
             JTextArea result = new JTextArea ("Erreur --> Connexion");
+            //On vérifie que la connexion fonctionne
             if(M_gsbMat.connexion(login,password)) {
-                String type = M_gsbMat.getType();	
+            	//On récupère le type de l'user
+                String type = M_gsbMat.getType();
+                //Si c'est un responsable on appelle le menu responsable
                 if (type.equals("S")) {
                 	result = new JTextArea ("Bienvenue Responsable de service " + newLine + "Votre Login : " +  login); 
                 	affichageMenuResponsable();
                     panelConnexion.remove(panelButton);
                 }
+                //Si c'est un directeur on appelle le menu directeur
             	if (type.equals("D")) {
             		result = new JTextArea ("Bienvenue Directeur " + newLine + "Votre Login : " +  login); 
             		affichageMenuDirecteur();
                     panelConnexion.remove(panelButton);
             	}
+            	//Si c'est un visiteur on appelle le menu visiteur
         		if (type.equals("V")) {
+        			//On récupère le login saisie pour faire des variables de "session"
         			this.unlogin = login;
         			result = new JTextArea ("Bienvenue Visiteur " + newLine + "Votre Login : " +  login); 
             		affichageMenuVisiteur();
