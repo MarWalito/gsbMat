@@ -1,4 +1,4 @@
-package gsbMat;
+package VueVisiteur;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,7 +12,7 @@ import gsbMat.Modele.M_gsbMat;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class SuppressionEmpruntMatV extends JPanel implements ActionListener{
+public class SuppressionEmpruntVehV extends JPanel implements ActionListener{
 	//Panel
 	private JPanel panelGlobal;
 	private JPanel panelContenu;
@@ -27,7 +27,7 @@ public class SuppressionEmpruntMatV extends JPanel implements ActionListener{
     //JTextField
     private JTextField jtfId;
 	
-    public SuppressionEmpruntMatV() {
+    public SuppressionEmpruntVehV() {
 		//Panel
 		panelGlobal = new JPanel();
 		panelContenu = new JPanel();
@@ -35,11 +35,11 @@ public class SuppressionEmpruntMatV extends JPanel implements ActionListener{
 		panelGlobal.setLayout(new GridLayout(14, 1));
         
 		//Label
-		titre = new JLabel("Supprimer un emprunt matériel");
+		titre = new JLabel("Supprimer un emprunt véhicule");
 		
 		panelGlobal.add(titre, BorderLayout.CENTER);
 		
-		lblType = new JLabel("Quel est l'id du matériel emprunter ? ");
+		lblType = new JLabel("Quel est l'id du véhicule emprunter ? ");
 		panelGlobal.add(lblType, BorderLayout.CENTER);
 		jtfId = new JTextField("");
 		panelGlobal.add(jtfId, BorderLayout.CENTER);
@@ -55,8 +55,8 @@ public class SuppressionEmpruntMatV extends JPanel implements ActionListener{
     }
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
-    		int idMat = Integer.parseInt(jtfId.getText());
-    		if(M_gsbMat.deleteEmpruntMat(idMat)) {
+    		int idVeh = Integer.parseInt(jtfId.getText());
+    		if(M_gsbMat.deleteEmpruntVeh(idVeh)) {
     			panelGlobal.remove(affichage);
     			affichage.setText("Suppression good");
     			panelGlobal.add(affichage);

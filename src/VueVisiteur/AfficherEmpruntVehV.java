@@ -1,4 +1,4 @@
-package gsbMat;
+package VueVisiteur;
 /**
  * @author yohann
  * Fenetre Afficher Circuit permettant l'affichage des circuits dans un tableau.
@@ -7,9 +7,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import javax.swing.*;
+
+import gsbMat.EmpruntVeh;
+
 import java.util.ArrayList;
 
-public class AfficherEmpruntMatV extends JPanel{
+public class AfficherEmpruntVehV extends JPanel{
     
     //Attributs privés
     private JPanel panelTitre;
@@ -19,7 +22,7 @@ public class AfficherEmpruntMatV extends JPanel{
     private JTable tableau;
     private JScrollPane scrollPane;
     //On passe en paramètre une collection afin qu'il puisse afficher les circuits
-    public AfficherEmpruntMatV(ArrayList<EmpruntMat> uneListeEmprunt) {
+    public AfficherEmpruntVehV(ArrayList<EmpruntVeh> uneListeEmprunt) {
     	//Declaration des panels, des bordures et des couleurs
         this.panelTitre = new JPanel();
         this.monPanel = new JPanel();
@@ -36,15 +39,15 @@ public class AfficherEmpruntMatV extends JPanel{
         Object data[][]= new Object[20][20]; 
         int i = 0; 
         //Boucle foreach permettant le parcours de la collection pour l'affichage.
-        for (EmpruntMat unEmprunt : uneListeEmprunt) {
-            data[i][0] = unEmprunt.getIdMateriel();
+        for (EmpruntVeh unEmprunt : uneListeEmprunt) {
+            data[i][0] = unEmprunt.getIdVehicule();
             data[i][1] = unEmprunt.getDateDebut();
             data[i][2] = unEmprunt.getDateFin();
             data[i][3] = unEmprunt.getDuree();
             
             i++;
         }
-        String [] title = {"Id materiel", "Date Debut", "Date Fin", "Duree"}; 
+        String [] title = {"Id véhicule", "Date Debut", "Date Fin", "Duree"}; 
         //On instancie le tableau
         this.tableau = new JTable(data,title);       
         //On définis la taille du tableau

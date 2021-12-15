@@ -1,4 +1,4 @@
-package gsbMat;
+package VueVisiteur;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,6 +11,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
+import gsbMat.DateLabelFormatter;
 import gsbMat.Modele.M_gsbMat;
 
 import java.awt.event.ActionListener;

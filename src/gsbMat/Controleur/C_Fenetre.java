@@ -7,6 +7,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+import VueVisiteur.AfficherEmpruntMatV;
+import VueVisiteur.AfficherEmpruntVehV;
+import VueVisiteur.AjouterEmpruntMatV;
+import VueVisiteur.AjouterEmpruntVehV;
+import VueVisiteur.SuppressionEmpruntMatV;
 import gsbMat.*;
 import gsbMat.Modele.M_gsbMat;
 

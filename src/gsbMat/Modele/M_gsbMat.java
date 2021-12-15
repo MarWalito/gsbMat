@@ -612,7 +612,7 @@ public class M_gsbMat {
 	        } catch (SQLException e) {
 	            System.out.println("Erreur d'insertion d'un materiel.");
 	            erreurAjoutEmprunt =  e.getMessage();
-	            //made by Jeremy, Mme Touillon, Enzo, Yohann
+	          //made by Jeremy, Mme Touillon, Enzo, Yohann
 	            
 	        }
 	        return rep;
