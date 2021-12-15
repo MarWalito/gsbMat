@@ -26,26 +26,44 @@ public class SuppressionEmpruntMatV extends JPanel implements ActionListener{
     private JButton btnValider;
     //JTextField
     private JTextField jtfId;
+    private JTextField jtfLoginVisiteur;
+    //ComboBox
+    private JComboBox listeMateriel;
 	
-    public SuppressionEmpruntMatV() {
+    public SuppressionEmpruntMatV(String unLogin) {
 		//Panel
 		panelGlobal = new JPanel();
 		panelContenu = new JPanel();
 		panelGlobal.setLayout(new BorderLayout());
 		panelGlobal.setLayout(new GridLayout(14, 1));
+		
+		//JTF
+		this.jtfLoginVisiteur = new JTextField(); 
+		this.jtfLoginVisiteur.setText(unLogin);
+		
+		String loginVisiteur = jtfLoginVisiteur.getText();
+		int idVisiteur = M_gsbMat.rcpIdVis(loginVisiteur);
         
 		//Label
-		titre = new JLabel("Supprimer un emprunt matériel");
+		titre = new JLabel("Supprimer un emprunt Matériel");
 		
 		panelGlobal.add(titre, BorderLayout.CENTER);
 		
-		lblType = new JLabel("Quel est l'id du matériel emprunter ? ");
+		lblType = new JLabel("Quel est l'id du véhicule emprunter ? ");
 		panelGlobal.add(lblType, BorderLayout.CENTER);
-		jtfId = new JTextField("");
-		panelGlobal.add(jtfId, BorderLayout.CENTER);
-	
-		
-		//button
+		//combo Box
+        ArrayList<String> uneListeMat = M_gsbMat.recupListeEmpruntMat(idVisiteur);
+        String nomMat[] = new String[M_gsbMat.getNbEmpruntMat(idVisiteur)];
+        int i = 0; 
+        for (String unMateriel : uneListeMat) {
+        	nomMat[i] = unMateriel;
+            i++;
+        }
+        listeMateriel = new JComboBox(nomMat);
+        panelGlobal.add(listeMateriel);
+        listeMateriel.addActionListener(this);
+        
+		//Button
         btnValider = new JButton ("Valider");
 		btnValider.addActionListener(this);
 		panelGlobal.add(btnValider);
@@ -53,9 +71,11 @@ public class SuppressionEmpruntMatV extends JPanel implements ActionListener{
 		affichage = new JLabel ("");
 		panelGlobal.add(affichage);
     }
+    
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
-    		int idMat = Integer.parseInt(jtfId.getText());
+			String libelle = listeMateriel.getSelectedItem().toString();
+    		int idMat = M_gsbMat.rcpIdMat(libelle);
     		if(M_gsbMat.deleteEmpruntMat(idMat)) {
     			panelGlobal.remove(affichage);
     			affichage.setText("Suppression good");

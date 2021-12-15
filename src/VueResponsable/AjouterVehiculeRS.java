@@ -1,4 +1,4 @@
-package gsbMat;
+package VueResponsable;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

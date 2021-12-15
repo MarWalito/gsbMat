@@ -14,6 +14,12 @@ public class Vehicule {
 		this.marque = uneMarque; 
 		this.nbPlaces = unNbPlaces;
 	}
+	
+	public Vehicule( String uneImmat, String unModele, String uneMarque) {
+		this.immat = uneImmat; 
+		this.modele = unModele; 
+		this.marque = uneMarque; 
+	}
 
 	public int getId() {
 		return id;

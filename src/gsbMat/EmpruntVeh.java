@@ -2,13 +2,13 @@ package gsbMat;
 
 public class EmpruntVeh {
 	private int idVisiteur; 
-	private int idVehicule; 
 	private String dateDebut; 
 	private String dateFin;
 	private int duree;
+	private Vehicule vehicule;
 	
-	public EmpruntVeh (int unIdMateriel, String uneDateDebut, String uneDateFin, int uneDuree ) {
-		this.idVehicule = unIdMateriel;
+	public EmpruntVeh (String uneDateDebut, String uneDateFin, int uneDuree, Vehicule unVehicule ) {
+		this.vehicule = unVehicule;
 		this.dateDebut = uneDateDebut;
 		this.dateFin = uneDateFin;
 		this.duree = uneDuree;
@@ -18,17 +18,18 @@ public class EmpruntVeh {
 		return idVisiteur;
 	}
 
+	public Vehicule getVehicule() {
+		return vehicule;
+	}
+
+	public void setVehicule(Vehicule vehicule) {
+		this.vehicule = vehicule;
+	}
+
 	public void setIdVisiteur(int idVisiteur) {
 		this.idVisiteur = idVisiteur;
 	}
 
-	public int getIdVehicule() {
-		return idVehicule;
-	}
-
-	public void setIdVehicule(int idVehicule) {
-		this.idVehicule = idVehicule;
-	}
 
 	public String getDateDebut() {
 		return dateDebut;

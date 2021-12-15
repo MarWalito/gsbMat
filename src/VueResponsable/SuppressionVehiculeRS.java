@@ -1,4 +1,4 @@
-package gsbMat;
+package VueResponsable;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,8 +11,9 @@ import gsbMat.Modele.M_gsbMat;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Properties;
 
-public class SuppressionMaterielRS extends JPanel implements ActionListener{
+public class SuppressionVehiculeRS extends JPanel implements ActionListener{
 	//Panel
 	private JPanel panelGlobal;
 	private JPanel panelContenu;
@@ -27,7 +28,7 @@ public class SuppressionMaterielRS extends JPanel implements ActionListener{
     //JComboBox
     private JComboBox listeMateriel;
 	
-    public SuppressionMaterielRS() {
+    public SuppressionVehiculeRS() {
 		//Panel
 		panelGlobal = new JPanel();
 		panelContenu = new JPanel();
@@ -36,14 +37,13 @@ public class SuppressionMaterielRS extends JPanel implements ActionListener{
         
 		//Label
 		titre = new JLabel("Supprimer un matériel");
-		
 		panelGlobal.add(titre, BorderLayout.CENTER);
 		
 		lblType = new JLabel("Quel est le type du matériel ? ");
 		panelGlobal.add(lblType, BorderLayout.CENTER);
 		//combo Box
-        ArrayList<String> listePilote = M_gsbMat.recupListeMateriel();
-        String nomPilote[] = new String[M_gsbMat.getNbMateriel()];
+        ArrayList<String> listePilote = M_gsbMat.recupListeVehicule();
+        String nomPilote[] = new String[M_gsbMat.getNbVehicule()];
         int i = 0; 
         for (String unPilote : listePilote) {
         	nomPilote[i] = unPilote;
@@ -52,8 +52,7 @@ public class SuppressionMaterielRS extends JPanel implements ActionListener{
         listeMateriel = new JComboBox(nomPilote);
         panelGlobal.add(listeMateriel);
         listeMateriel.addActionListener(this);
-	
-		
+        
 		//button
         btnValider = new JButton ("Valider");
 		btnValider.addActionListener(this);
@@ -65,8 +64,8 @@ public class SuppressionMaterielRS extends JPanel implements ActionListener{
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
     		
-    		String type = listeMateriel.getSelectedItem().toString();
-    		if(M_gsbMat.deleteMateriel(type)) {
+    		String immat = listeMateriel.getSelectedItem().toString();
+    		if(M_gsbMat.deleteVehicule(immat)) {
     			panelGlobal.remove(affichage);
     			affichage.setText("Suppression good");
     			panelGlobal.add(affichage);

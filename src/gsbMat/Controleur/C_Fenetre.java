@@ -7,11 +7,22 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+import VueDirecteur.AfficherStatsD;
+import VueDirecteur.AfficherStatsDir;
+import VueResponsable.AfficherMateriel;
+import VueResponsable.AfficherVehicule;
+import VueResponsable.AjouterMaterielRS;
+import VueResponsable.AjouterVehiculeRS;
+import VueResponsable.RechercherMateriel;
+import VueResponsable.RechercherVehicule;
+import VueResponsable.SuppressionMaterielRS;
+import VueResponsable.SuppressionVehiculeRS;
 import VueVisiteur.AfficherEmpruntMatV;
 import VueVisiteur.AfficherEmpruntVehV;
 import VueVisiteur.AjouterEmpruntMatV;
 import VueVisiteur.AjouterEmpruntVehV;
 import VueVisiteur.SuppressionEmpruntMatV;
+import VueVisiteur.SuppressionEmpruntVehV;
 import gsbMat.*;
 import gsbMat.Modele.M_gsbMat;
 
@@ -49,26 +60,21 @@ public class C_Fenetre extends JFrame implements ActionListener{
     private JMenuItem rechercherVehicule;
 
     //Pour la partie Visiteur
-    private JMenuItem listeReservation;
     private JMenuItem emprunterMateriel;
     private JMenuItem emprunterVehicule;
     private JMenuItem suppressionEmpruntMat;
-    private JMenuItem userGestion;
-
-    //Pour la partie Visiteur
-    private JMenuItem affichageStats;
-    private JMenuItem affichageStatsDir;
+    private JMenuItem suppressionEmpruntVeh;
     private JMenuItem affichageEmpruntMat;
     private JMenuItem affichageEmpruntVeh;
 
-
-
+    //Pour la partie Directeur
+    private JMenuItem affichageStats;
+    private JMenuItem affichageStatsDir;
+    
+    //Autres attributs
     private Pattern p;
     private Matcher m;
-    
-    
-    private String unlogin;
-    private String uneErreur;
+    private String unlogin;    
     
     public C_Fenetre() {
     	this.setTitle("GSB Mat");
@@ -198,18 +204,16 @@ public class C_Fenetre extends JFrame implements ActionListener{
                 getContentPane().repaint();
             }else if (e.getSource().equals(suppressionEmpruntMat)) {
                 getContentPane().removeAll();
-                getContentPane().add(new SuppressionEmpruntMatV().getMonPanelGlobal());
+                getContentPane().add(new SuppressionEmpruntMatV(unlogin).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
             }
-
-    		/* else if (e.getSource().equals(listeReservation)) {
+            else if (e.getSource().equals(suppressionEmpruntVeh)) {
                 getContentPane().removeAll();
-                getContentPane().add(new AfficherListeMaterielV().getMonPanelGlobal());
+                getContentPane().add(new SuppressionEmpruntVehV(unlogin).getMonPanelGlobal());
                 getContentPane().revalidate();
                 getContentPane().repaint();
             }
-            */
     	}
     }
     public void actionPerformed ( ActionEvent evenement) {
@@ -250,7 +254,6 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    // Création des différents menus
 	    JMenu menuRes = new JMenu("Menu Matériel");
 	    JMenu menuVeh = new JMenu("Menu Véhicule");
-	    JMenu menuUser = new JMenu("Menu User");
 	
 	
 	    // Cr?ation d'?l?ment des menus
@@ -263,9 +266,6 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    this.afficherVehicule = new JMenuItem("Afficher véhicule");
 	    this.rechercherVehicule = new JMenuItem("Rechercher véhicule");
 	    this.supprimerVehicule = new JMenuItem("Supprimer véhicule");
-	    
-        this.btnDeconnexion = new JMenuItem("Deconnexion");
-        this.userGestion = new JMenuItem("Gestion User");
 	
 	    // Ajout de l'élément au menu 
 	    menuRes.add(ajouterMateriel);
@@ -278,9 +278,6 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    menuVeh.add(rechercherVehicule);
 	    menuVeh.add(supprimerVehicule);
 	    
-        menuRes.add(btnDeconnexion);
-        menuUser.add(userGestion);
-	    
 	    //on ecoute les items du menu
 	    this.ajouterMateriel.addActionListener(new ActionListe ());
 	    this.supprimerMateriel.addActionListener(new ActionListe ());
@@ -292,14 +289,13 @@ public class C_Fenetre extends JFrame implements ActionListener{
 	    this.afficherVehicule.addActionListener(new ActionListe ());
 	    this.rechercherVehicule.addActionListener(new ActionListe ());
 	    this.supprimerVehicule.addActionListener(new ActionListe ());
-        this.btnDeconnexion.addActionListener(new ActionListe ());
 
 
         // Ajout du menu dans la barre de menu
 	    menu.add(menuRes);
 	    menu.add(menuVeh);
-	    menu.add(menuUser);
-	    // Permet de d?finir le menu utilis? dans la JFrame
+
+	    // Permet de d?finir le menu utilisé dans la JFrame
 	    this.setJMenuBar(menu);
     }
     public void affichageMenuDirecteur() {
@@ -307,32 +303,24 @@ public class C_Fenetre extends JFrame implements ActionListener{
         this.menu = new JMenuBar();
         //this.menu.setBackground(new Color(47,53,66));
 
-        // Cr?ation des diff?rents menus
+        // Cr?ation des différents menus
         JMenu menuRes = new JMenu("Menu Directeur");
-        JMenu menuUser = new JMenu("Menu User");
-
 
         // Cr?ation d'?l?ment des menus
         this.affichageStats = new JMenuItem("Affichage des statistiques N°1");
         this.affichageStatsDir = new JMenuItem("Affichage des statistiques N°2");
         this.btnDeconnexion = new JMenuItem("Déconnexion");
-        this.userGestion = new JMenuItem("Gestion User");
-
         // Ajout de l'élément au menu
         menuRes.add(affichageStats);
         menuRes.add(affichageStatsDir);
-        menuRes.add(btnDeconnexion);
-        menuUser.add(userGestion);
 
         //on ecoute les items du menu
         this.affichageStats.addActionListener(new ActionListe ());
         this.affichageStatsDir.addActionListener(new ActionListe ());
-        this.btnDeconnexion.addActionListener(new ActionListe ());
 
         // Ajout du menu dans la barre de menu
         menu.add(menuRes);
-        menu.add(menuUser);
-        // Permet de d?finir le menu utilis? dans la JFrame
+        // Permet de définir le menu utilisé dans la JFrame
         this.setJMenuBar(menu);
     }	
     public void affichageMenuVisiteur() {
@@ -341,28 +329,23 @@ public class C_Fenetre extends JFrame implements ActionListener{
 
         // Cr?ation des diff?rents menus
         JMenu menuVisi = new JMenu("Menu Visiteur");
-        JMenu menuUser = new JMenu("Menu User");
 
 
         // Cr?ation d'?l?ment des menus
         this.affichageEmpruntMat = new JMenuItem("Voir les réservations matériel");
         this.affichageEmpruntVeh = new JMenuItem("Voir les réservations véhicule");
-        this.rechercherMateriel = new JMenuItem("Rechercher du Materiel");
         this.emprunterMateriel = new JMenuItem("Emprunter Materiel");
         this.emprunterVehicule = new JMenuItem("Emprunter Véhicule");
         this.suppressionEmpruntMat = new JMenuItem("Supprimer emprunt matériel");
-        this.btnDeconnexion = new JMenuItem("Déconnexion");
-        this.userGestion = new JMenuItem("Gestion User");
+        this.suppressionEmpruntVeh = new JMenuItem("Supprimer emprunt véhicule");
 
         // Ajout de l'él?ment au menu
         menuVisi.add(affichageEmpruntMat);
         menuVisi.add(affichageEmpruntVeh);
-        menuVisi.add(rechercherMateriel);
         menuVisi.add(emprunterMateriel);
         menuVisi.add(emprunterVehicule);
         menuVisi.add(suppressionEmpruntMat);
-        menuVisi.add(btnDeconnexion);
-        menuUser.add(userGestion);
+        menuVisi.add(suppressionEmpruntVeh);
 
         //on ecoute les items du menu
         this.affichageEmpruntMat.addActionListener(new ActionListe());
@@ -370,11 +353,10 @@ public class C_Fenetre extends JFrame implements ActionListener{
         this.emprunterMateriel.addActionListener(new ActionListe ());
         this.emprunterVehicule.addActionListener(new ActionListe ());
         this.suppressionEmpruntMat.addActionListener(new ActionListe ());
-        this.btnDeconnexion.addActionListener(new ActionListe ());
+        this.suppressionEmpruntVeh.addActionListener(new ActionListe ());
 
         // Ajout du menu dans la barre de menu
         menuVis.add(menuVisi);
-        menuVis.add(menuUser);
         // Permet de d?finir le menu utilis? dans la JFrame
         this.setJMenuBar(menuVis);
     }

@@ -1,4 +1,4 @@
-package gsbMat;
+package VueDirecteur;
 /**
  * @author yohann
  * Fenetre Afficher Circuit permettant l'affichage des circuits dans un tableau.
@@ -10,6 +10,7 @@ import java.text.MessageFormat;
 
 import javax.swing.*;
 
+import gsbMat.Stats;
 import gsbMat.Modele.M_gsbMat;
 
 import java.util.ArrayList;
@@ -69,7 +70,6 @@ public class AfficherStatsDir extends JPanel implements ActionListener {
         this.monPanel.add(this.scrollPane);
         //On ajoute le tout au panelglobal qui va permettre les switch de panels.
         
-        panelButton.add(btnpdf);
         
         this.monPanelGlobal.add(panelTitre, BorderLayout.NORTH);
         this.monPanelGlobal.add(monPanel, BorderLayout.CENTER);

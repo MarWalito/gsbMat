@@ -18,6 +18,11 @@ public class Materiel {
 		this.id = unId; 
 		this.libelle = unLibelle;
 	}
+	
+	public Materiel (String unLibelle, String unType) {
+		this.libelle = unLibelle; 
+		this.type = unType;
+	}
 
 	public String getLibelle() {
 		return libelle;

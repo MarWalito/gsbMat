@@ -138,7 +138,7 @@ public class AjouterEmpruntMatV extends JPanel implements ActionListener{
     		}
     		else {
     			panelGlobal.remove(affichage);
-    			affichage.setText("Ajout pas good");
+    			affichage.setText("Ajout pas good / SQLState : " + M_gsbMat.getErreurAjoutEmprunt());
     			panelGlobal.add(affichage);
         		panelGlobal.revalidate();
         		panelGlobal.repaint(); 

@@ -2,13 +2,13 @@ package gsbMat;
 
 public class EmpruntMat {
 	private int idVisiteur; 
-	private int idMateriel; 
+	private Materiel materiel; 
 	private String dateDebut; 
 	private String dateFin;
 	private int duree;
 	
-	public EmpruntMat (int unIdMateriel, String uneDateDebut, String uneDateFin, int uneDuree ) {
-		this.idMateriel = unIdMateriel;
+	public EmpruntMat (String uneDateDebut, String uneDateFin, int uneDuree, Materiel unMateriel ) {
+		this.materiel = unMateriel;
 		this.dateDebut = uneDateDebut;
 		this.dateFin = uneDateFin;
 		this.duree = uneDuree;
@@ -22,12 +22,12 @@ public class EmpruntMat {
 		this.idVisiteur = idVisiteur;
 	}
 
-	public int getIdMateriel() {
-		return idMateriel;
+	public Materiel getMateriel() {
+		return materiel;
 	}
 
-	public void setIdMateriel(int idMateriel) {
-		this.idMateriel = idMateriel;
+	public void setMateriel(Materiel materiel) {
+		this.materiel = materiel;
 	}
 
 	public String getDateDebut() {
@@ -53,5 +53,6 @@ public class EmpruntMat {
 	public void setDuree(int duree) {
 		this.duree = duree;
 	}
+
 	
 }

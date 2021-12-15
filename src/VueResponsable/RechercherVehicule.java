@@ -1,4 +1,4 @@
-package gsbMat;
+package VueResponsable;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,7 +12,7 @@ import gsbMat.Modele.M_gsbMat;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class RechercherMateriel extends JPanel implements ActionListener{
+public class RechercherVehicule extends JPanel implements ActionListener{
 	//Panel
 	private JPanel panelGlobal;
 	private JPanel panelContenu;
@@ -23,10 +23,10 @@ public class RechercherMateriel extends JPanel implements ActionListener{
 	private JLabel affichage;
 
     //Jtf
-    private JTextField jtfLibelle;
+    private JTextField jtfImmat;
     //Button
     private JButton btnValider;
-	public RechercherMateriel() {
+	public RechercherVehicule() {
 		//Panel
 		panelGlobal = new JPanel();
 		panelContenu = new JPanel();
@@ -38,10 +38,10 @@ public class RechercherMateriel extends JPanel implements ActionListener{
 		
 		panelGlobal.add(titre, BorderLayout.CENTER);
 		
-		lblLibelle = new JLabel("Quel est le libelle du matériel ? ");
+		lblLibelle = new JLabel("Quel est l'immatriculation du véhicule ? ");
 		panelGlobal.add(lblLibelle, BorderLayout.CENTER);
-		jtfLibelle = new JTextField("");
-		panelGlobal.add(jtfLibelle, BorderLayout.CENTER);
+		jtfImmat = new JTextField("");
+		panelGlobal.add(jtfImmat, BorderLayout.CENTER);
 		
 		//button
         btnValider = new JButton ("Valider");
@@ -53,17 +53,17 @@ public class RechercherMateriel extends JPanel implements ActionListener{
     }
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
-    		String libelle = jtfLibelle.getText();
+    		String immat = jtfImmat.getText();
     		String newLine = System.getProperty("line.separator");	
             JTextArea result = new JTextArea ("Erreur --> Ajout");
-    		if(M_gsbMat.searchMateriel(libelle)) {
-    			result = new JTextArea (M_gsbMat.getInfoMateriel(libelle)); 
+    		if(M_gsbMat.searchVehicule(immat)) {
+    			result = new JTextArea (M_gsbMat.getInfoVehicule(immat)); 
     			panelGlobal.add(result);
     			panelGlobal.revalidate();
     			panelGlobal.repaint();
     		}
     		else {
-    			result = new JTextArea ("Ecurie pas la");
+    			result = new JTextArea ("Recherche pas good");
     			panelGlobal.add(result);
     			panelGlobal.revalidate();
     			panelGlobal.repaint(); 

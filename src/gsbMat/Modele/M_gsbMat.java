@@ -35,7 +35,7 @@ public class M_gsbMat {
 	public static void connexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connexion = DriverManager.getConnection("jdbc:mysql://172.16.203.202/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "sio", "slam");
+			connexion = DriverManager.getConnection("jdbc:mysql://localhost/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "");
 			st = connexion.createStatement();
 		} catch (ClassNotFoundException erreur ) {
 			// TODO Auto-generated catch block
@@ -510,6 +510,26 @@ public class M_gsbMat {
 		}
 		return rep;
 	}
+	
+	public static ArrayList<String> recupListeEmpruntVeh(int unId) {
+        M_gsbMat.connexion();
+        ArrayList<String> liste = new ArrayList<String>();
+        String modele;
+        try {
+        	pst = connexion.prepareStatement( "SELECT modele  FROM Vehicule V, empruntVeh EV WHERE V.id = EV.idVehicule AND idVisiteur = ?;");
+			pst.setInt(1, unId);
+			rs = pst.executeQuery();
+            while(rs.next()) {
+            	modele = rs.getString("modele");
+                liste.add(modele);
+            }
+            rs.close();
+        } catch (SQLException erreur) {
+            System.out.println("Erreur --> recup�ration du mat�riel");
+            erreur.printStackTrace();
+        }
+        return liste;
+    }
 	// ========== PARTIE VEHICULE ==========
 	
 	// ========== PARTIE EMPRUNT ==========
@@ -586,8 +606,7 @@ public class M_gsbMat {
 	                rep = true;
 	            }
 	        } catch (SQLException e) {
-	            System.out.println("Erreur d'insertion d'un materiel.");
-	            e.printStackTrace();
+	        	erreurAjoutEmprunt =  e.getMessage(); //made by Jeremy, Mme Touillon, Enzo, Yohann
 	            rep = false;
 	        }
 	        return rep;
@@ -610,9 +629,7 @@ public class M_gsbMat {
 	                rep = true;
 	            } 
 	        } catch (SQLException e) {
-	            System.out.println("Erreur d'insertion d'un materiel.");
-	            erreurAjoutEmprunt =  e.getMessage();
-	          //made by Jeremy, Mme Touillon, Enzo, Yohann
+	            erreurAjoutEmprunt =  e.getMessage(); //made by Jeremy, Mme Touillon, Enzo, Yohann
 	            
 	        }
 	        return rep;
@@ -627,18 +644,21 @@ public class M_gsbMat {
 			ArrayList<EmpruntMat> lesEmpruntsMat;
 			lesEmpruntsMat = new ArrayList<EmpruntMat>();
 			String req;
-			int idMateriel, duree;
-			String dateDebut, dateFin;
+			int duree;
+			String dateDebut, dateFin, libelle, type;
 			try {
-	        	pst = connexion.prepareStatement("SELECT * FROM empruntMat WHERE idVisiteur = ?;");
+	        	pst = connexion.prepareStatement("SELECT * FROM empruntMat EM, Materiel M WHERE EM.idMateriel = M.id AND idVisiteur = ?;");
 	        	pst.setInt(1, unIdVisiteur);
 	        	rs = pst.executeQuery();
 				while (rs.next()) {
-					idMateriel = rs.getInt("idMateriel");
 					dateDebut = rs.getString("dateDebut");
 					dateFin = rs.getString("dateFin");
 					duree = rs.getInt("duree");
-					lesEmpruntsMat.add(new EmpruntMat(idMateriel,dateDebut,dateFin, duree));
+					libelle = rs.getString("libelle");
+					type = rs.getString("type");
+					Materiel unPtiMateriel = new Materiel(libelle, type);
+					
+					lesEmpruntsMat.add(new EmpruntMat(dateDebut,dateFin, duree, unPtiMateriel));
 				}
 				rs.close() ;
 			} catch (SQLException erreur) {
@@ -654,18 +674,21 @@ public class M_gsbMat {
 			ArrayList<EmpruntVeh> lesEmpruntsVeh;
 			lesEmpruntsVeh = new ArrayList<EmpruntVeh>();
 			String req;
-			int idVehicule, duree;
-			String dateDebut, dateFin;
+			int duree;
+			String dateDebut, dateFin, modele, marque, immat;
 			try {
-	        	pst = connexion.prepareStatement("SELECT * FROM empruntVeh WHERE idVisiteur = ?;");
+	        	pst = connexion.prepareStatement("SELECT * FROM empruntVeh EV, Vehicule V WHERE EV.idVehicule = V.id AND idVisiteur = ?;");
 	        	pst.setInt(1, unIdVisiteur);
 	        	rs = pst.executeQuery();
 				while (rs.next()) {
-					idVehicule = rs.getInt("idVehicule");
 					dateDebut = rs.getString("dateDebut");
 					dateFin = rs.getString("dateFin");
 					duree = rs.getInt("duree");
-					lesEmpruntsVeh.add(new EmpruntVeh(idVehicule,dateDebut,dateFin, duree));
+					modele = rs.getString("modele");
+					marque = rs.getString("marque");
+					immat = rs.getString("immat");
+					Vehicule unePtiteCharette = new Vehicule(immat, modele, marque);
+					lesEmpruntsVeh.add(new EmpruntVeh(dateDebut,dateFin, duree, unePtiteCharette));
 				}
 				rs.close() ;
 			} catch (SQLException erreur) {
@@ -675,6 +698,62 @@ public class M_gsbMat {
 			}
 			return lesEmpruntsVeh;
 		}
+		
+		public static int getNbEmpruntVeh(int unId) {
+			M_gsbMat.connexion();
+	        int rep = 0;
+	        try {
+	        	pst = connexion.prepareStatement("SELECT COUNT(*) AS nb FROM empruntVeh WHERE idVisiteur = ?;");
+	        	pst.setInt(1, unId);
+	        	rs = pst.executeQuery();
+	            while(rs.next()) {
+	                rep = rs.getInt("nb");
+	            }
+	            rs.close();
+	        } catch (SQLException erreur) {
+	            System.out.println("Erreur --> recup�ration du nombre de mat�riel");
+	            erreur.printStackTrace();
+	        }
+	        return rep;
+	    }
+		
+		public static ArrayList<String> recupListeEmpruntMat(int unId) {
+	        M_gsbMat.connexion();
+	        ArrayList<String> liste = new ArrayList<String>();
+	        String modele;
+	        try {
+	        	pst = connexion.prepareStatement( "SELECT libelle  FROM Materiel M, empruntMat EM WHERE M.id = EM.idMateriel AND idVisiteur = ?;");
+				pst.setInt(1, unId);
+				rs = pst.executeQuery();
+	            while(rs.next()) {
+	            	modele = rs.getString("libelle");
+	                liste.add(modele);
+	            }
+	            rs.close();
+	        } catch (SQLException erreur) {
+	            System.out.println("Erreur --> recup�ration du mat�riel");
+	            erreur.printStackTrace();
+	        }
+	        return liste;
+	    }
+		
+		public static int getNbEmpruntMat(int unId) {
+			M_gsbMat.connexion();
+	        int rep = 0;
+	        try {
+	        	pst = connexion.prepareStatement("SELECT COUNT(*) AS nb FROM empruntMat WHERE idVisiteur = ?;");
+	        	pst.setInt(1, unId);
+	        	rs = pst.executeQuery();
+	            while(rs.next()) {
+	                rep = rs.getInt("nb");
+	            }
+	            rs.close();
+	        } catch (SQLException erreur) {
+	            System.out.println("Erreur --> recup�ration du nombre de mat�riel");
+	            erreur.printStackTrace();
+	        }
+	        return rep;
+	    }
 
 
 
@@ -730,6 +809,7 @@ public class M_gsbMat {
 			}
 			return lesStats;
 		}
-
+		
+		// ========== PARTIE DIRECTEUR STATISTIQUES  ==========
 	
 }

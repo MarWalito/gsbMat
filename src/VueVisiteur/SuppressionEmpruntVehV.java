@@ -26,13 +26,23 @@ public class SuppressionEmpruntVehV extends JPanel implements ActionListener{
     private JButton btnValider;
     //JTextField
     private JTextField jtfId;
+    private JTextField jtfLoginVisiteur;
+    //ComboBox
+    private JComboBox listeVehicule;
 	
-    public SuppressionEmpruntVehV() {
+    public SuppressionEmpruntVehV(String unLogin) {
 		//Panel
 		panelGlobal = new JPanel();
 		panelContenu = new JPanel();
 		panelGlobal.setLayout(new BorderLayout());
 		panelGlobal.setLayout(new GridLayout(14, 1));
+		
+		//JTF
+		this.jtfLoginVisiteur = new JTextField(); 
+		this.jtfLoginVisiteur.setText(unLogin);
+		
+		String loginVisiteur = jtfLoginVisiteur.getText();
+		int idVisiteur = M_gsbMat.rcpIdVis(loginVisiteur);
         
 		//Label
 		titre = new JLabel("Supprimer un emprunt véhicule");
@@ -41,11 +51,19 @@ public class SuppressionEmpruntVehV extends JPanel implements ActionListener{
 		
 		lblType = new JLabel("Quel est l'id du véhicule emprunter ? ");
 		panelGlobal.add(lblType, BorderLayout.CENTER);
-		jtfId = new JTextField("");
-		panelGlobal.add(jtfId, BorderLayout.CENTER);
-	
-		
-		//button
+		//combo Box
+        ArrayList<String> uneListeVehicule = M_gsbMat.recupListeEmpruntVeh(idVisiteur);
+        String nomVehicule[] = new String[M_gsbMat.getNbEmpruntVeh(idVisiteur)];
+        int i = 0; 
+        for (String unVehicule : uneListeVehicule) {
+        	nomVehicule[i] = unVehicule;
+            i++;
+        }
+        listeVehicule = new JComboBox(nomVehicule);
+        panelGlobal.add(listeVehicule);
+        listeVehicule.addActionListener(this);
+        
+		//Button
         btnValider = new JButton ("Valider");
 		btnValider.addActionListener(this);
 		panelGlobal.add(btnValider);
@@ -53,9 +71,11 @@ public class SuppressionEmpruntVehV extends JPanel implements ActionListener{
 		affichage = new JLabel ("");
 		panelGlobal.add(affichage);
     }
+    
 	public void actionPerformed ( ActionEvent evenement) {
 		if(evenement.getSource() == btnValider) {
-    		int idVeh = Integer.parseInt(jtfId.getText());
+    		String modele = listeVehicule.getSelectedItem().toString();
+    		int idVeh = M_gsbMat.rcpIdVeh(modele);
     		if(M_gsbMat.deleteEmpruntVeh(idVeh)) {
     			panelGlobal.remove(affichage);
     			affichage.setText("Suppression good");

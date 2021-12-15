@@ -1,4 +1,4 @@
-package gsbMat;
+package VueResponsable;
 /**
  * @author yohann
  * Fenetre Afficher Circuit permettant l'affichage des circuits dans un tableau.
@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import javax.swing.*;
+
+import gsbMat.Vehicule;
+
 import java.util.ArrayList;
 
 public class AfficherVehicule extends JPanel{

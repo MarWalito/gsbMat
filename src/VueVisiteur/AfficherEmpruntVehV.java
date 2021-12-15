@@ -40,14 +40,16 @@ public class AfficherEmpruntVehV extends JPanel{
         int i = 0; 
         //Boucle foreach permettant le parcours de la collection pour l'affichage.
         for (EmpruntVeh unEmprunt : uneListeEmprunt) {
-            data[i][0] = unEmprunt.getIdVehicule();
-            data[i][1] = unEmprunt.getDateDebut();
-            data[i][2] = unEmprunt.getDateFin();
-            data[i][3] = unEmprunt.getDuree();
+            data[i][0] = unEmprunt.getVehicule().getModele();
+            data[i][1] = unEmprunt.getVehicule().getMarque();
+            data[i][2] = unEmprunt.getVehicule().getImmat();
+            data[i][3] = unEmprunt.getDateDebut();
+            data[i][4] = unEmprunt.getDateFin();
+            data[i][5] = unEmprunt.getDuree() + " Jours";
             
             i++;
         }
-        String [] title = {"Id véhicule", "Date Debut", "Date Fin", "Duree"}; 
+        String [] title = {"Modele","Marque", "Immatriculation", "Date Debut", "Date Fin", "Duree"}; 
         //On instancie le tableau
         this.tableau = new JTable(data,title);       
         //On définis la taille du tableau

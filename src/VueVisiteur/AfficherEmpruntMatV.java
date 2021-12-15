@@ -40,14 +40,15 @@ public class AfficherEmpruntMatV extends JPanel{
         int i = 0; 
         //Boucle foreach permettant le parcours de la collection pour l'affichage.
         for (EmpruntMat unEmprunt : uneListeEmprunt) {
-            data[i][0] = unEmprunt.getIdMateriel();
-            data[i][1] = unEmprunt.getDateDebut();
-            data[i][2] = unEmprunt.getDateFin();
-            data[i][3] = unEmprunt.getDuree();
+            data[i][0] = unEmprunt.getMateriel().getLibelle();
+            data[i][1] = unEmprunt.getMateriel().getType();
+            data[i][2] = unEmprunt.getDateDebut();
+            data[i][3] = unEmprunt.getDateFin();
+            data[i][4] = unEmprunt.getDuree() + " Jours";
             
             i++;
         }
-        String [] title = {"Id materiel", "Date Debut", "Date Fin", "Duree"}; 
+        String [] title = {"Libelle", "Type", "Date Debut", "Date Fin", "Duree"}; 
         //On instancie le tableau
         this.tableau = new JTable(data,title);       
         //On définis la taille du tableau
