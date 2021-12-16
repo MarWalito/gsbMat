@@ -128,7 +128,7 @@ public class AjouterEmpruntVehV extends JPanel implements ActionListener{
     		int idVeh = M_gsbMat.rcpIdVeh(modele);
     		java.sql.Date dateDebut = (java.sql.Date) AjouterEmpruntVehV.this.datePicker.getModel().getValue();
     		java.sql.Date dateFin = (java.sql.Date) AjouterEmpruntVehV.this.datePicker2.getModel().getValue();
-    		float duree = Integer.parseInt(jtfDuree.getText());
+    		String duree = jtfDuree.getText();
     		
     		if(M_gsbMat.addEmpruntV(idVeh, dateDebut, dateFin,duree,idVisiteur)) {
     			panelGlobal.remove(affichage);

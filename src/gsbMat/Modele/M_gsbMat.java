@@ -694,7 +694,7 @@ public class M_gsbMat {
 	            rep = false;
 	        }
 	        return rep;
-
+ 
 	    }
 		/**
 		 * Permet d'ajouter un emprunt véhicule
@@ -705,16 +705,25 @@ public class M_gsbMat {
 		 * @param unIdVisiteur
 		 * @return
 		 */
-		public static boolean addEmpruntV(int unIdVehicule, Date uneDateDebut, Date uneDateFin, float uneDuree, int unIdVisiteur) {
+		public static boolean addEmpruntV(int unIdVehicule, Date uneDateDebut, Date uneDateFin, String uneDuree, int unIdVisiteur) {
 			M_gsbMat.connexion();
 	        boolean rep = false;
 	        int result = 0;
+	        boolean b = p.matches(".*[1-9].*", uneDuree);
+	        
+	        if(b) {
+	        	System.out.println("Durée valide");
+	        }
+	        else {
+	        	System.out.println("Durée non valide");
+	        }
+	        
 	        try {
 	        	pst = connexion.prepareStatement("INSERT INTO empruntVeh (idVehicule, dateDebut, dateFin, duree, idVisiteur) VALUES (?,?,?,?,?);");
 	        	pst.setInt(1, unIdVehicule);
 	        	pst.setDate(2, uneDateDebut);
 	        	pst.setDate(3, uneDateFin);
-	        	pst.setFloat(4, uneDuree);
+	        	pst.setString(4, uneDuree);
 	        	pst.setInt(5, unIdVisiteur);
 	            result = pst.executeUpdate();
 	            if (result == 1) {
