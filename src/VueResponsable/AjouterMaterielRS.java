@@ -89,14 +89,14 @@ public class AjouterMaterielRS extends JPanel implements ActionListener{
     		String type = jtfType.getText();
     		if(M_gsbMat.addMateriel(id,libelle, largeur,longueur,type)) {
     			panelGlobal.remove(affichage);
-    			affichage.setText("Vous avez ajouté du matériel de type " + type);
+    			affichage.setText("Ajout good");
     			panelGlobal.add(affichage);
         		panelGlobal.revalidate();
         		panelGlobal.repaint();
     		}
     		else {
     			panelGlobal.remove(affichage);
-    			affichage.setText("Ajout pas bon");
+    			affichage.setText("Ajout pas good");
     			panelGlobal.add(affichage);
         		panelGlobal.revalidate();
         		panelGlobal.repaint(); 

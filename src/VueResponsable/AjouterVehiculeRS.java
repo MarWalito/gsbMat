@@ -94,7 +94,7 @@ public class AjouterVehiculeRS extends JPanel implements ActionListener{
     		}
     		else {
     			panelGlobal.remove(affichage);
-    			affichage.setText("Ajout pas bon");
+    			affichage.setText("Ajout pas good");
     			panelGlobal.add(affichage);
         		panelGlobal.revalidate();
         		panelGlobal.repaint(); 

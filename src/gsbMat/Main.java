@@ -13,5 +13,4 @@ public class Main {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		C_Fenetre connexion = new C_Fenetre();
 	}	
-
 }

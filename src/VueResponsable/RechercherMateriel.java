@@ -64,7 +64,7 @@ public class RechercherMateriel extends JPanel implements ActionListener{
     			panelGlobal.repaint();
     		}
     		else {
-    			result = new JTextArea ("Ecurie pas la");
+    			result = new JTextArea ("Matériel pas la");
     			panelGlobal.add(result);
     			panelGlobal.revalidate();
     			panelGlobal.repaint(); 
