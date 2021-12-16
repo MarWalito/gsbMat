@@ -58,8 +58,7 @@ public class RechercherVehicule extends JPanel implements ActionListener{
     		String newLine = System.getProperty("line.separator");	
             JTextArea result = new JTextArea ("Erreur --> Ajout");
     		if(M_gsbMat.searchVehicule(immat)) {
-    			result = new JTextArea (M_gsbMat.getInfoVehicule(immat)); 
-    			panelGlobal.add(result);
+    			affichage.setText(M_gsbMat.getInfoVehicule(immat));
     			panelGlobal.revalidate();
     			panelGlobal.repaint();
     		}

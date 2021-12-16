@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import gsbMat.Vehicule;
 import gsbMat.Modele.M_gsbMat;
 
-class testGsbMat {
+class test {
 	//On vérifie que l'insertion ne fonctionne pas quand la clé primaire est déjà utilisé
 	@Test
 	public void testAjout() {

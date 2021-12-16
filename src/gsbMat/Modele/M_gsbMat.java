@@ -249,7 +249,7 @@ public class M_gsbMat {
 		boolean rep = false;
 		int count = 0;
 		try {
-			pst = connexion.prepareStatement( "SELECT COUNT(*) AS nb FROM materiel WHERE libelle = ?;");
+			pst = connexion.prepareStatement( "SELECT COUNT(*) AS nb FROM Materiel WHERE libelle = ?;");
 			pst.setString(1, unLibelle);
 			rs = pst.executeQuery();
 			while(rs.next()) {
@@ -278,7 +278,7 @@ public class M_gsbMat {
 		String libelle, type;
 		double largeur, longueur;
 		try {
-			pst = connexion.prepareStatement( "SELECT * FROM materiel WHERE libelle = ?;");
+			pst = connexion.prepareStatement( "SELECT * FROM Materiel WHERE libelle = ?;");
 			pst.setString(1, unLibelle);
 			rs = pst.executeQuery();
 			while(rs.next()) {
@@ -292,7 +292,7 @@ public class M_gsbMat {
 			rs.close();
 			rep = unMateriel.toXML();
 		} catch (SQLException erreur) {
-			System.out.println("Erreur --> recupï¿½ration des infos de la course");
+			System.out.println("Erreur --> recupï¿½ration des infos du matériel");
 			erreur.printStackTrace();
 		}
 		return rep;

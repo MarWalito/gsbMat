@@ -58,8 +58,7 @@ public class RechercherMateriel extends JPanel implements ActionListener{
     		String newLine = System.getProperty("line.separator");	
             JTextArea result = new JTextArea ("Erreur --> Ajout");
     		if(M_gsbMat.searchMateriel(libelle)) {
-    			result = new JTextArea (M_gsbMat.getInfoMateriel(libelle)); 
-    			panelGlobal.add(result);
+    			affichage.setText(M_gsbMat.getInfoMateriel(libelle));
     			panelGlobal.revalidate();
     			panelGlobal.repaint();
     		}
