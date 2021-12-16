@@ -17,10 +17,10 @@ public class Materiel {
 	 * @param uneLongueur
 	 * @param unType
 	 */
-	public Materiel (int unId,String unLibelle,  double uneLargeur, double uneLongueur, String unType) {
+	public Materiel (int unId,String unLibelle,  double uneLargeurdzqdqdq, double uneLongueur, String unType) {
 		this.id = unId; 
 		this.libelle = unLibelle;
-		this.largeur = uneLargeur; 
+		this.largeur = uneLargeurdzqdqdq; 
 		this.longueur = uneLongueur; 
 		this.type = unType; 
 	}
