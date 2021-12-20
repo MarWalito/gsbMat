@@ -35,7 +35,7 @@ public class M_gsbMat {
 	public static void connexion() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connexion = DriverManager.getConnection("jdbc:mysql://172.16.203.202/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "sio", "slam");
+			connexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3307/gsbMat?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", "root", "");
 			st = connexion.createStatement();
 		} catch (ClassNotFoundException erreur ) {
 			// TODO Auto-generated catch block
